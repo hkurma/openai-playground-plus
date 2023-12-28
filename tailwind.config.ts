@@ -1,6 +1,8 @@
 import type { Config } from 'tailwindcss'
 import colors from 'tailwindcss/colors'
 
+const primary = colors.blue
+
 const config: Config = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -10,7 +12,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: colors.blue
+        primary
       }
     },
   },
