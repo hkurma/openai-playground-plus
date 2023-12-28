@@ -27,7 +27,7 @@ const Index = () => {
       </Link>
       <Text className="text-xl font-medium text-center">
         Play with OpenAI API&apos;s using your API Key. Your API Key is never
-        sent to the server or used for any other purpose.
+        sent to the server or used in any manner.
       </Text>
       <div className="w-full lg:w-1/2 flex gap-4 my-8">
         <Input
@@ -37,7 +37,7 @@ const Index = () => {
           value={apiKey}
           onChange={setApiKey}
         />
-        <Button onClick={handleSubmit}>Get Started</Button>
+        <Button onClick={handleSubmit}>Submit</Button>
       </div>
     </div>
   );
