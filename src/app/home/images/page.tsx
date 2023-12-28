@@ -1,49 +1,47 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { Button, Input, Text, Textarea } from "@/components";
-import { DEFAULT_SYSTEM_INSTRUCTIONS } from "@/constants";
+import { Button, Input, Text } from "@/components";
 import openai from "@/lib/openai";
 import classNames from "classnames";
-import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
+import { Image as ImageResponse } from "openai/resources/images.mjs";
 import { useState } from "react";
-import { MessageSquare, Send } from "react-feather";
+import { Image as ImageIcon, Send, XCircle } from "react-feather";
 
-const Chat = () => {
-  const [systemInstructions, setSystemInstructions] = useState<string>("");
-  const [userMessage, setUserMessage] = useState<string>("");
-  const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
-  const [pendingCompletion, setPendingCompletion] = useState<boolean>(false);
+const Images = () => {
+  const [prompt, setPrompt] = useState<string>("");
+  const [pendingGeneration, setPendingGeneration] = useState<boolean>(false);
   const [options, setOptions] = useState<{
     model: string;
-    temperature: number;
+    count: number;
+    style: string;
   }>({
-    model: "gpt-4-1106-preview",
-    temperature: 1,
+    model: "dall-e-3",
+    count: 1,
+    style: "vivid",
   });
+  const [images, setImages] = useState<Array<ImageResponse>>([]);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const handleSend = async () => {
-    setPendingCompletion(true);
-    const newMessages = [...messages];
-    newMessages.push({
-      role: "user",
-      content: userMessage,
-    });
-    setMessages(newMessages);
-    setUserMessage("");
-    const completionResponse = await openai.chat.completions.create({
-      model: options.model,
-      messages: [
-        {
-          role: "system",
-          content: systemInstructions ?? DEFAULT_SYSTEM_INSTRUCTIONS,
-        },
-        ...newMessages,
-      ],
-      temperature: options.temperature,
-    });
-    newMessages.push(completionResponse.choices[0].message);
-    setMessages(newMessages);
-    setPendingCompletion(false);
+    setErrorMessage("");
+    setImages([]);
+    setPendingGeneration(true);
+    openai.images
+      .generate({
+        model: options.model,
+        prompt: prompt,
+        n: options.count,
+      })
+      .then((generationResponse) => {
+        setImages(generationResponse.data);
+      })
+      .catch((err) => {
+        setErrorMessage(err.message);
+      })
+      .finally(() => {
+        setPendingGeneration(false);
+      });
   };
 
   const handleInputMessageKeyUp = (
@@ -56,47 +54,33 @@ const Chat = () => {
   };
 
   return (
-    <div className="h-full w-full flex overflow-hidden">
-      <div className="hidden lg:flex flex-col lg:w-1/4 xl:w-1/5 border-r">
-        <Text className="font-medium p-4 border-b">System Message</Text>
-        <Textarea
-          name="systemMessage"
-          className="flex-1 border-none resize-none"
-          placeholder={DEFAULT_SYSTEM_INSTRUCTIONS}
-          onChange={setSystemInstructions}
-          value={systemInstructions}
-        />
-      </div>
+    <div className="h-full w-full flex">
       <div className="flex-1 flex flex-col gap-4">
-        <div
-          className={classNames(
-            "flex-1 flex flex-col gap-4 px-4 pt-8 overflow-auto",
-            messages.length === 0 && "justify-center items-center"
-          )}
-        >
-          {messages.length === 0 && (
-            <>
-              <MessageSquare />
+        <div className="flex-1 flex gap-4 px-4 pt-8 overflow-auto justify-center items-center">
+          {!errorMessage && !pendingGeneration && images.length === 0 && (
+            <div className="flex flex-col gap-4 items-center">
+              <ImageIcon />
               <Text className="font-medium">
-                Send a message to start your chat
+                Send a prompt to generate images
               </Text>
-            </>
+            </div>
           )}
-          {messages
-            .filter((m) => m.role != "system")
-            .map((message, index) => (
-              <Text
-                key={index}
-                className={classNames(
-                  "p-4 border border-primary-300 rounded w-fit",
-                  message.role === "assistant" && "bg-primary-50",
-                  message.role === "user" && "ml-auto"
-                )}
-              >
-                {message.content as string}
-              </Text>
-            ))}
-          {pendingCompletion && (
+          {images.map((image, index) => (
+            <img
+              key={index}
+              alt={prompt}
+              src={image.url!}
+              width={240}
+              height="auto"
+            />
+          ))}
+          {errorMessage && (
+            <div className="flex flex-col items-center gap-4 text-red-500">
+              <XCircle />
+              <Text className="">{errorMessage}</Text>
+            </div>
+          )}
+          {pendingGeneration && (
             <div
               className={classNames(
                 "p-4 border border-primary-300 rounded w-fit bg-primary-50 text-primary-500"
@@ -148,9 +132,9 @@ const Chat = () => {
           <Input
             name="userMessage"
             className="flex-1 p-4"
-            placeholder="Enter your message"
-            value={userMessage}
-            onChange={setUserMessage}
+            placeholder="Enter your prompt"
+            value={prompt}
+            onChange={setPrompt}
             onKeyUp={handleInputMessageKeyUp}
           />
           <Button className="p-4" onClick={handleSend}>
@@ -174,20 +158,33 @@ const Chat = () => {
             />
           </div>
           <div className="flex flex-col gap-2">
-            <label htmlFor="temperature" className="text-sm">
-              Temperature
+            <label htmlFor="count" className="text-sm">
+              N
             </label>
             <Input
-              id="temperature"
-              name="temperature"
+              id="count"
+              name="count"
               type="number"
-              min={0}
-              max={2}
-              placeholder="Temperature"
-              value={String(options.temperature)}
+              min={1}
+              max={10}
+              placeholder="Count"
+              value={String(options.count)}
               onChange={(value) =>
-                setOptions({ ...options, temperature: Number(value) })
+                setOptions({ ...options, count: Number(value) })
               }
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="style" className="text-sm">
+              Style
+            </label>
+            <Input
+              id="style"
+              name="style"
+              type="text"
+              placeholder="Style"
+              value={String(options.style)}
+              onChange={(value) => setOptions({ ...options, style: value })}
             />
           </div>
         </div>
@@ -196,4 +193,4 @@ const Chat = () => {
   );
 };
 
-export default Chat;
+export default Images;

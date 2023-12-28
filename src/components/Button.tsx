@@ -11,7 +11,7 @@ const Button = (props: PropsWithChildren<ButtonProps>) => {
   return (
     <button
       className={classNames(
-        "bg-primary-500 border border-primary-500 transition ease-in-out duration-200 text-slate-100 p-2",
+        "bg-primary-500 border rounded border-primary-500 transition ease-in-out duration-200 text-slate-100 p-2",
         props.disabled
           ? "cursor-not-allowed"
           : "hover:bg-primary-600 hover:border-primary-600",

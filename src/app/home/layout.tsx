@@ -1,15 +1,16 @@
 "use client";
 
-import { Link, Logo, Text } from "@/components";
+import { Link, Logo, Select, Text } from "@/components";
 import { STORAGE_KEY } from "@/constants";
 import openai from "@/lib/openai";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { PropsWithChildren, useEffect, useState } from "react";
 import { Edit } from "react-feather";
 
 const HomeLayout = (props: PropsWithChildren) => {
   const [apiKey, setApiKey] = useState<string>("");
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     const apiKey = localStorage.getItem(STORAGE_KEY);
@@ -29,8 +30,21 @@ const HomeLayout = (props: PropsWithChildren) => {
             <Text className="text-2xl font-medium">Playground+</Text>
           </div>
         </Link>
-        <div className="hidden lg:flex gap-4 items-center bg-slate-100 px-4 py-2 rounded">
-          <Text className="text-xs">{apiKey}</Text>
+        <Select
+          options={[
+            { label: "Chat", value: "/home/chat" },
+            { label: "Images", value: "/home/images" },
+          ]}
+          onChange={(option) => {
+            router.push(option.value);
+          }}
+          value={pathname}
+        ></Select>
+        <div className="hidden lg:flex gap-4 items-center bg-slate-100 p-2 border rounded">
+          <div className="flex gap-1 text-sm">
+            <Text className="font-medium">API_KEY:</Text>
+            <Text>{apiKey}</Text>
+          </div>
           <Link href="/">
             <Edit size={16} />
           </Link>

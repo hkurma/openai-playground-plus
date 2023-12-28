@@ -1,22 +1,35 @@
 import classNames from "classnames";
 
+type SelectOption = {
+  label: string;
+  value: string;
+};
+
 type SelectProps = {
   className?: string;
-  options: string[];
+  options: SelectOption[];
   placeholder?: string;
+  onChange?: (option: SelectOption) => void;
+  value?: string;
 };
 
 const Select = (props: SelectProps) => {
   return (
     <select
       className={classNames(
-        "border border-primary-300 focus:border-primary-500 transition ease-in-out duration-200 p-4",
+        "border rounded focus:border-primary-500 transition ease-in-out duration-200 p-2",
         props.className
       )}
+      onChange={(event) =>
+        props.onChange?.(
+          props.options.find((o) => o.value == event.target.value)!
+        )
+      }
+      value={props.value}
     >
       {props.options.map((option) => (
-        <option key={option} value={option}>
-          {option}
+        <option key={option.value} value={option.value}>
+          {option.label}
         </option>
       ))}
     </select>

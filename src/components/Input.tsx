@@ -20,7 +20,7 @@ const Input = (props: InputProps) => {
   return (
     <input
       className={classNames(
-        "border focus:border-primary-500 transition ease-in-out duration-200 p-2",
+        "border rounded focus:border-primary-500 transition ease-in-out duration-200 p-2",
         props.className
       )}
       type={props.type}
