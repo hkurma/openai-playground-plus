@@ -70,7 +70,7 @@ const Images = () => {
               key={index}
               alt={prompt}
               src={image.url!}
-              width={240}
+              width={256}
               height="auto"
             />
           ))}
