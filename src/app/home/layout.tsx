@@ -30,24 +30,27 @@ const HomeLayout = (props: PropsWithChildren) => {
             <Text className="text-2xl font-medium">Playground+</Text>
           </div>
         </Link>
-        <Select
-          options={[
-            { label: "Chat", value: "/home/chat" },
-            { label: "Images", value: "/home/images" },
-          ]}
-          onChange={(option) => {
-            router.push(option.value);
-          }}
-          value={pathname}
-        ></Select>
-        <div className="hidden lg:flex gap-4 items-center bg-slate-100 p-2 border rounded">
-          <div className="flex gap-1 text-sm">
-            <Text className="font-medium">API_KEY:</Text>
-            <Text>{apiKey}</Text>
+        <div className="flex gap-4">
+          <div className="flex gap-2 text-sm items-center">
+            <Text className="font-medium">API:</Text>
+            <Select
+              options={[
+                { label: "Chat", value: "/home/chat" },
+                { label: "Images", value: "/home/images" },
+              ]}
+              onChange={(option) => {
+                router.push(option.value);
+              }}
+              value={pathname}
+            ></Select>
           </div>
-          <Link href="/">
-            <Edit size={16} />
-          </Link>
+          <div className="hidden lg:flex gap-2 text-sm items-center">
+            <Text className="font-medium">KEY:</Text>
+            <Text>{apiKey}</Text>
+            <Link href="/">
+              <Edit size={16} />
+            </Link>
+          </div>
         </div>
       </div>
       <div className="flex-1 overflow-auto">{props.children}</div>
