@@ -56,7 +56,7 @@ const Images = () => {
   return (
     <div className="h-full w-full flex">
       <div className="flex-1 flex flex-col gap-4">
-        <div className="flex-1 flex gap-4 px-4 pt-8 overflow-auto justify-center items-center">
+        <div className="flex-1 flex gap-4 px-4 pt-8 overflow-auto justify-center items-center flex-wrap">
           {!errorMessage && !pendingGeneration && images.length === 0 && (
             <div className="flex flex-col gap-4 items-center">
               <ImageIcon />
