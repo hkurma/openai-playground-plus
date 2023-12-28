@@ -1,9 +1,9 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { Button, Input, Text } from "@/components";
+import { Button, Input, Select, Text } from "@/components";
 import openai from "@/lib/openai";
 import classNames from "classnames";
+import Image from "next/image";
 import { Image as ImageResponse } from "openai/resources/images.mjs";
 import { useState } from "react";
 import { Image as ImageIcon, Send, XCircle } from "react-feather";
@@ -16,7 +16,7 @@ const Images = () => {
     count: number;
     style: string;
   }>({
-    model: "dall-e-3",
+    model: "dall-e-2",
     count: 1,
     style: "vivid",
   });
@@ -66,12 +66,12 @@ const Images = () => {
             </div>
           )}
           {images.map((image, index) => (
-            <img
+            <Image
               key={index}
               alt={prompt}
               src={image.url!}
               width={256}
-              height="auto"
+              height={256}
             />
           ))}
           {errorMessage && (
@@ -149,12 +149,17 @@ const Images = () => {
             <label htmlFor="model" className="text-sm">
               Model
             </label>
-            <Input
-              id="model"
+            <Select
               name="model"
               placeholder="Model"
+              options={[
+                { label: "dall-e-2", value: "dall-e-2" },
+                { label: "dall-e-3", value: "dall-e-3" },
+              ]}
               value={options.model}
-              onChange={(value) => setOptions({ ...options, model: value })}
+              onChange={(option) =>
+                setOptions({ ...options, model: option.value })
+              }
             />
           </div>
           <div className="flex flex-col gap-2">

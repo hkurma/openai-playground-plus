@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Input, Text, Textarea } from "@/components";
+import { Button, Input, Select, Text, Textarea } from "@/components";
 import { DEFAULT_SYSTEM_INSTRUCTIONS } from "@/constants";
 import openai from "@/lib/openai";
 import classNames from "classnames";
@@ -17,7 +17,7 @@ const Chat = () => {
     model: string;
     temperature: number;
   }>({
-    model: "gpt-4-1106-preview",
+    model: "gpt-3.5-turbo-1106",
     temperature: 1,
   });
 
@@ -165,12 +165,21 @@ const Chat = () => {
             <label htmlFor="model" className="text-sm">
               Model
             </label>
-            <Input
-              id="model"
+            <Select
               name="model"
               placeholder="Model"
+              options={[
+                { label: "gpt-3.5-turbo-1106", value: "gpt-3.5-turbo-1106" },
+                { label: "gpt-4-1106-preview", value: "gpt-4-1106-preview" },
+                {
+                  label: "gpt-4-vision-preview",
+                  value: "gpt-4-vision-preview",
+                },
+              ]}
               value={options.model}
-              onChange={(value) => setOptions({ ...options, model: value })}
+              onChange={(option) =>
+                setOptions({ ...options, model: option.value })
+              }
             />
           </div>
           <div className="flex flex-col gap-2">

@@ -7,6 +7,7 @@ type SelectOption = {
 
 type SelectProps = {
   className?: string;
+  name?: string;
   options: SelectOption[];
   placeholder?: string;
   onChange?: (option: SelectOption) => void;
@@ -20,6 +21,7 @@ const Select = (props: SelectProps) => {
         "border rounded focus:border-primary-500 transition ease-in-out duration-200 p-2",
         props.className
       )}
+      name={props.name}
       onChange={(event) =>
         props.onChange?.(
           props.options.find((o) => o.value == event.target.value)!
