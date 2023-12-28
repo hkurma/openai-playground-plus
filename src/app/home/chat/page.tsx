@@ -57,6 +57,7 @@ const Chat = () => {
       <div className="hidden lg:flex flex-col lg:w-1/4 xl:w-1/5 border-r">
         <Text className="font-medium p-4 border-b">System Message</Text>
         <Textarea
+          name="systemMessage"
           className="flex-1 border-none resize-none"
           placeholder={DEFAULT_SYSTEM_MESSAGE}
           onChange={setSystemMessage}
@@ -142,6 +143,7 @@ const Chat = () => {
         </div>
         <div className="flex gap-4 px-4 pb-8">
           <Input
+            name="userMessage"
             className="flex-1 p-4"
             placeholder="Enter your message"
             value={userMessage}
@@ -161,6 +163,7 @@ const Chat = () => {
               Model
             </label>
             <Input
+              id="model"
               name="model"
               placeholder="Model"
               value={options.model}
@@ -172,6 +175,7 @@ const Chat = () => {
               Temperature
             </label>
             <Input
+              id="temperature"
               name="temperature"
               type="number"
               min={0}

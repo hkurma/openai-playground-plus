@@ -31,6 +31,7 @@ const Index = () => {
       </Text>
       <div className="w-full lg:w-1/2 flex gap-4 my-8">
         <Input
+          name="apiKey"
           className="flex-1"
           placeholder="Enter your OpenAI API Key"
           value={apiKey}

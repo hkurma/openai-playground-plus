@@ -3,7 +3,8 @@ import { KeyboardEvent } from "react";
 
 type InputProps = {
   className?: string;
-  name?: string;
+  id?: string;
+  name: string;
   type?: "text" | "number" | "password";
   min?: string | number;
   max?: string | number;
@@ -26,6 +27,7 @@ const Input = (props: InputProps) => {
       min={props.min}
       max={props.max}
       step={props.step}
+      id={props.id}
       name={props.name}
       placeholder={props.placeholder}
       onChange={(event) => props.onChange?.(event.target.value)}

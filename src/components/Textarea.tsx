@@ -3,6 +3,7 @@ import { KeyboardEvent } from "react";
 
 type TextareaProps = {
   className?: string;
+  name: string;
   placeholder?: string;
   onChange?: (value: string) => void;
   value?: string;
@@ -13,6 +14,7 @@ type TextareaProps = {
 const Textarea = (props: TextareaProps) => {
   return (
     <textarea
+      name={props.name}
       className={classNames(
         "border focus:border-primary-500 transition ease-in-out duration-200 p-4",
         props.className
