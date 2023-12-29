@@ -6,9 +6,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "OpenAI Playground+",
-  description:
-    "Playground App for OpenAI APIs. Built using NextJS and TailwindCSS.",
+  title: "OpenAI - API Playground Plus",
+  description: "Play with OpenAI API's using your own API Key.",
 };
 
 const RootLayout = (props: PropsWithChildren) => {

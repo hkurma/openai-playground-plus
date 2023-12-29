@@ -7,7 +7,8 @@ type SelectOption = {
 
 type SelectProps = {
   className?: string;
-  name?: string;
+  name: string;
+  id: string;
   options: SelectOption[];
   placeholder?: string;
   onChange?: (option: SelectOption) => void;
@@ -22,6 +23,7 @@ const Select = (props: SelectProps) => {
         props.className
       )}
       name={props.name}
+      id={props.id}
       onChange={(event) =>
         props.onChange?.(
           props.options.find((o) => o.value == event.target.value)!

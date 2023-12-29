@@ -150,6 +150,7 @@ const Images = () => {
               Model
             </label>
             <Select
+              id="model"
               name="model"
               placeholder="Model"
               options={[
@@ -183,13 +184,18 @@ const Images = () => {
             <label htmlFor="style" className="text-sm">
               Style
             </label>
-            <Input
+            <Select
               id="style"
               name="style"
-              type="text"
+              options={[
+                { label: "vivid", value: "vivid" },
+                { label: "natural", value: "natural" },
+              ]}
               placeholder="Style"
               value={String(options.style)}
-              onChange={(value) => setOptions({ ...options, style: value })}
+              onChange={(option) =>
+                setOptions({ ...options, style: option.value })
+              }
             />
           </div>
         </div>

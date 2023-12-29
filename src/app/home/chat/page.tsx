@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, Input, Select, Text, Textarea } from "@/components";
-import { DEFAULT_SYSTEM_INSTRUCTIONS } from "@/constants";
+import { DEFAULT_SYSTEM_INSTRUCTIONS } from "@/lib/constants";
 import openai from "@/lib/openai";
 import classNames from "classnames";
 import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
@@ -167,6 +167,7 @@ const Chat = () => {
             </label>
             <Select
               name="model"
+              id="model"
               placeholder="Model"
               options={[
                 { label: "gpt-3.5-turbo-1106", value: "gpt-3.5-turbo-1106" },

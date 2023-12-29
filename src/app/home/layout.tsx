@@ -1,7 +1,7 @@
 "use client";
 
 import { Link, Logo, Select, Text } from "@/components";
-import { STORAGE_KEY } from "@/constants";
+import { STORAGE_KEY } from "@/lib/constants";
 import openai from "@/lib/openai";
 import { usePathname, useRouter } from "next/navigation";
 import { PropsWithChildren, useEffect, useState } from "react";
@@ -24,19 +24,21 @@ const HomeLayout = (props: PropsWithChildren) => {
   return (
     <div className="h-screen w-screen flex flex-col overflow-hidden">
       <div className="p-4 border-b flex justify-between items-center">
-        <Link href="/">
-          <div className="flex gap-2 items-center">
-            <Logo width="24px" height="24px" />
-            <Text className="text-2xl font-medium">Playground+</Text>
-          </div>
-        </Link>
+        <div className="flex gap-2 items-center">
+          <Logo width="24px" height="24px" />
+          <Text className="text-2xl font-medium">Playground+</Text>
+        </div>
         <div className="flex gap-4">
-          <div className="flex gap-2 text-sm items-center">
+          <div className="flex gap-1 text-sm items-center">
             <Text className="font-medium">API:</Text>
             <Select
+              name="api"
               options={[
                 { label: "Chat", value: "/home/chat" },
                 { label: "Images", value: "/home/images" },
+                { label: "Files", value: "/home/files" },
+                { label: "Assistants", value: "/home/assistants" },
+                { label: "Moderations", value: "/home/moderations" },
               ]}
               onChange={(option) => {
                 router.push(option.value);
@@ -44,7 +46,7 @@ const HomeLayout = (props: PropsWithChildren) => {
               value={pathname}
             ></Select>
           </div>
-          <div className="hidden lg:flex gap-2 text-sm items-center">
+          <div className="hidden lg:flex gap-1 text-sm items-center">
             <Text className="font-medium">KEY:</Text>
             <Text>{apiKey}</Text>
             <Link href="/">

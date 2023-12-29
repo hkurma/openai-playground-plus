@@ -5,7 +5,7 @@ type InputProps = {
   className?: string;
   id?: string;
   name: string;
-  type?: "text" | "number" | "password";
+  type?: "text" | "number" | "password" | "file";
   min?: string | number;
   max?: string | number;
   step?: string | number;
