@@ -28,7 +28,7 @@ const HomeLayout = (props: PropsWithChildren) => {
           <Logo width="24px" height="24px" />
           <Text className="text-2xl font-medium">API Playground</Text>
         </div>
-        <div className="flex gap-4">
+        <div className="flex gap-4 items-center">
           <div className="flex gap-1 text-sm items-center">
             <Text className="font-medium">API:</Text>
             <Select
@@ -50,10 +50,10 @@ const HomeLayout = (props: PropsWithChildren) => {
           <div className="hidden lg:flex gap-1 text-sm items-center">
             <Text className="font-medium">KEY:</Text>
             <Text>{apiKey}</Text>
-            <Link href="/">
-              <Edit size={16} />
-            </Link>
           </div>
+          <Link href="/">
+            <Edit size={16} />
+          </Link>
         </div>
       </div>
       <div className="flex-1 overflow-auto">{props.children}</div>
