@@ -32,6 +32,7 @@ const HomeLayout = (props: PropsWithChildren) => {
           <div className="flex gap-1 text-sm items-center">
             <Text className="font-medium">API:</Text>
             <Select
+              id="api"
               name="api"
               options={[
                 { label: "Chat", value: "/home/chat" },
