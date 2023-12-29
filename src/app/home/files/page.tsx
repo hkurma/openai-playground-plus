@@ -59,6 +59,7 @@ const Files = () => {
   return (
     <div className="h-full w-full flex overflow-hidden">
       <div className="hidden lg:flex flex-col lg:w-1/4 xl:w-1/5 border-r">
+        <Text className="font-medium p-4 border-b">Upload</Text>
         <div className="flex-1 p-4 flex flex-col gap-4">
           <div className="h-1/3 border p-2 rounded">
             <div className="h-full border border-dashed rounded bg-slate-100 flex flex-col gap-4 justify-center items-center">
