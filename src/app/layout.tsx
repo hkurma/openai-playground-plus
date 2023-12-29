@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { PropsWithChildren } from "react";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,6 +18,7 @@ const RootLayout = (props: PropsWithChildren) => {
       <body className={inter.className}>
         {props.children}
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
