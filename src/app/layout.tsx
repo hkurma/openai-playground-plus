@@ -4,12 +4,13 @@ import { PropsWithChildren } from "react";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { APP_DESCRIPTION, APP_TITLE } from "@/lib/constants";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "OpenAI - API Playground Plus",
-  description: "Play with OpenAI API's using your own API Key.",
+  title: APP_TITLE,
+  description: APP_DESCRIPTION,
 };
 
 const RootLayout = (props: PropsWithChildren) => {

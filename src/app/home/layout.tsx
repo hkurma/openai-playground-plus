@@ -26,7 +26,7 @@ const HomeLayout = (props: PropsWithChildren) => {
       <div className="p-4 border-b flex justify-between items-center">
         <div className="flex gap-2 items-center">
           <Logo width="24px" height="24px" />
-          <Text className="text-2xl font-medium">Playground+</Text>
+          <Text className="text-2xl font-medium">API Playground</Text>
         </div>
         <div className="flex gap-4">
           <div className="flex gap-1 text-sm items-center">

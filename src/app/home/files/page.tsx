@@ -103,9 +103,9 @@ const Files = () => {
             {files.map((file) => (
               <Text
                 className={classNames(
-                  "p-4 cursor-pointer transition duration-200 ease-in-out",
+                  "p-4 cursor-pointer rounded transition duration-200 ease-in-out",
                   file.id === fileInfo?.id
-                    ? "bg-primary-100 rounded text-primary-500"
+                    ? "bg-primary-100 text-primary-500"
                     : "hover:bg-primary-50"
                 )}
                 key={file.id}

@@ -2,7 +2,7 @@
 
 import { Button, Link, Logo, Text } from "@/components";
 import Input from "@/components/Input";
-import { STORAGE_KEY } from "@/lib/constants";
+import { APP_DESCRIPTION, APP_TITLE, STORAGE_KEY } from "@/lib/constants";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -21,24 +21,32 @@ const Index = () => {
   };
 
   return (
-    <div className="container p-4 m-auto h-screen flex flex-col justify-center items-center gap-4">
-      <div className="flex gap-4">
-        <Logo width="36px" height="36px" />
-        <Text className="text-4xl font-medium">Playground+</Text>
+    <div className="container p-4 m-auto h-screen flex flex-col justify-center items-center gap-8">
+      <div className="flex flex-col gap-4 justify-center items-center">
+        <Logo width="48px" height="48px" />
+        <Text className="text-4xl font-medium">{APP_TITLE}</Text>
+        <Text className="text-xl text-center">{APP_DESCRIPTION}</Text>
       </div>
-      <Text className="text-xl text-center">
-        Play with OpenAI API&apos;s using your own API Key.
-      </Text>
-      <div className="w-full lg:w-1/2 flex gap-4 my-8">
+      <div className="w-full flex flex-col gap-4 justify-center items-center">
         <Input
+          className="w-full lg:w-1/2 text-center"
           name="apiKey"
-          className="flex-1"
           placeholder="Enter your OpenAI API Key"
           value={apiKey}
           onChange={setApiKey}
         />
         <Button onClick={handleSubmit}>Submit</Button>
       </div>
+      <Text className="flex gap-2 text-sm">
+        Where to find API Key?
+        <Link
+          className="text-sm"
+          href="https://platform.openai.com/docs/api-reference/authentication"
+          target="_blank"
+        >
+          OpenAI API Reference
+        </Link>
+      </Text>
     </div>
   );
 };
