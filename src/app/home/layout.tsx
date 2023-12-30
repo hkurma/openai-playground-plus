@@ -77,7 +77,7 @@ const HomeLayout = (props: PropsWithChildren) => {
                   return { label: api.name, value: api.path };
                 })}
                 onChange={(option) => {
-                  setApi(api);
+                  setApi(apis.find((a) => a.path === option.value));
                   router.push(option.value);
                 }}
                 value={api.path}
