@@ -57,12 +57,14 @@ const HomeLayout = (props: PropsWithChildren) => {
       <div className="p-4 border-b flex justify-between items-center">
         <div className="flex gap-2 items-center">
           <Logo width="24px" height="24px" />
-          <Text className="text-2xl font-medium">API Playground</Text>
+          <Text className="text-2xl font-medium hidden md:block">
+            API Playground
+          </Text>
         </div>
         {api && apiKey && (
           <div className="flex gap-4 items-center">
             <Link
-              className="flex text-sm items-center"
+              className="hidden md:flex text-sm items-center"
               href={api.reference}
               target="_blank"
             >
