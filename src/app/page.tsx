@@ -40,7 +40,7 @@ const Index = () => {
       <Text className="flex gap-2 text-sm">
         Where to find API Key?
         <Link
-          className="text-sm"
+          className="text-sm text-primary-500 hover:text-primary-600 transition duration-200 ease-in-out"
           href="https://platform.openai.com/docs/api-reference/authentication"
           target="_blank"
         >
