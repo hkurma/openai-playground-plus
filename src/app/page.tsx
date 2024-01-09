@@ -23,7 +23,7 @@ const Index = () => {
   return (
     <div className="container p-4 m-auto h-screen flex flex-col justify-center text-center items-center gap-8">
       <div className="flex flex-col gap-4 justify-center items-center">
-        <Logo width="48px" height="48px" />
+        <Logo width="48" height="48" />
         <Text className="text-4xl font-medium">{APP_TITLE}</Text>
         <Text className="text-xl">{APP_DESCRIPTION}</Text>
       </div>

@@ -1,6 +1,6 @@
-# OpenAI API Playground
+# OpenAI Playground+
 
-Play with OpenAI API's using your own API Key. Your API Key is stored and used only in browser.
+Play with OpenAI API's using your own API Key. Your API Key is stored and used only from your browser.
 
 # Run locally
 
