@@ -35,6 +35,16 @@ export const metadata: Metadata = {
     images: ["/screenshot.png"],
     card: "summary_large_image",
   },
+  icons: [
+    {
+      type: "image/svg+xml",
+      url: "/favicon.svg",
+    },
+    {
+      type: "image/png",
+      url: "/favicon.png",
+    },
+  ],
 };
 
 const RootLayout = (props: PropsWithChildren) => {
