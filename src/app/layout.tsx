@@ -9,8 +9,32 @@ import { APP_DESCRIPTION, APP_TITLE } from "@/lib/constants";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://openai-playground-plus.vercel.app"),
   title: APP_TITLE,
   description: APP_DESCRIPTION,
+  keywords: [
+    "openai",
+    "api",
+    "playground",
+    "nextjs",
+    "tailwindcss",
+    "feather-icons",
+  ],
+  openGraph: {
+    title: APP_TITLE,
+    description: APP_DESCRIPTION,
+    siteName: APP_TITLE,
+    url: "/",
+    images: ["/screenshot.png"],
+    type: "website",
+    locale: "en-US",
+  },
+  twitter: {
+    title: APP_TITLE,
+    description: APP_DESCRIPTION,
+    images: ["/screenshot.png"],
+    card: "summary_large_image",
+  },
 };
 
 const RootLayout = (props: PropsWithChildren) => {
