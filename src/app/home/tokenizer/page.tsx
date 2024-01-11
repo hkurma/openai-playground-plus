@@ -1,10 +1,11 @@
 "use client";
 
-import { Text, Textarea } from "@/components/ui";
+import { Link, Text, Textarea } from "@/components/ui";
 import { useState } from "react";
 import cl100k_base from "gpt-tokenizer";
 import { Switch } from "@/components/ui";
 import { Label } from "@/components/ui/label";
+import { ArrowUpRight } from "lucide-react";
 
 const colors = [
   "rgba(107,64,216,.3)",
@@ -72,6 +73,12 @@ const Tokenizer = () => {
           <Text>Tokens</Text>
         </div>
       </div>
+      <Text variant="muted" className="text-center">
+        Created using{" "}
+        <Link href="https://github.com/niieani/gpt-tokenizer" target="_blank">
+          gpt-tokenizer <ArrowUpRight size={14} />
+        </Link>
+      </Text>
     </div>
   );
 };

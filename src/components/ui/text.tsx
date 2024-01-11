@@ -10,6 +10,7 @@ const textVariants = cva("scroll-m-20 tracking-tight", {
       heading: "text-2xl font-semibold",
       large: "text-lg font-medium",
       medium: "text-md font-medium",
+      muted: "text-sm text-muted-foreground",
     },
   },
   defaultVariants: {

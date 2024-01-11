@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { OpenAISVG } from "@/components/svgs";
 import { Text, Button, Input, Link } from "@/components/ui";
 import { APP_DESCRIPTION, APP_TITLE, STORAGE_KEY } from "@/lib/constants";
+import { ArrowUpRight } from "lucide-react";
 
 const Index = () => {
   const [apiKey, setApiKey] = useState<string>("");
@@ -41,7 +42,7 @@ const Index = () => {
         href="https://platform.openai.com/docs/api-reference/authentication"
         target="_blank"
       >
-        Where to find API Key?
+        Where to find API Key? <ArrowUpRight size={16} />
       </Link>
     </div>
   );

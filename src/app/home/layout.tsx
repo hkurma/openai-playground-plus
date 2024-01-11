@@ -6,6 +6,7 @@ import { OpenAISVG, GithubSVG } from "@/components/svgs";
 import { Link, Text } from "@/components/ui";
 import { STORAGE_KEY } from "@/lib/constants";
 import openai from "@/lib/openai";
+import { ArrowUpRight } from "lucide-react";
 
 type Menu = { name: string; path: string; target?: HTMLAttributeAnchorTarget };
 
@@ -59,7 +60,7 @@ const Navbar = () => {
             variant={menu === activeMenu ? "active" : "default"}
             target={menu.target}
           >
-            {menu.name}
+            {menu.name} {menu.target && <ArrowUpRight size={16} />}
           </Link>
         ))}
         <Link
