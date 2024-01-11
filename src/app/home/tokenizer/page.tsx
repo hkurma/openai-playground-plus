@@ -78,12 +78,6 @@ const Tokenizer = () => {
           <Text>Tokens</Text>
         </div>
       </div>
-      <Text variant="muted" className="text-center">
-        Created using{" "}
-        <Link href="https://github.com/niieani/gpt-tokenizer" target="_blank">
-          gpt-tokenizer <ArrowUpRight size={14} />
-        </Link>
-      </Text>
     </div>
   );
 };
