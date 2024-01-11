@@ -83,7 +83,7 @@ const Chat = () => {
         setMessages(newMessages);
       })
       .catch((err) => {
-        console.log(err);
+        setErrorMessage(err.message);
       })
       .finally(() => {
         setPendingCompletion(false);
@@ -157,7 +157,7 @@ const Chat = () => {
             </div>
           )}
           {errorMessage && (
-            <div className="w-full h-full flex flex-col items-center gap-4 text-red-500">
+            <div className="w-full h-full flex flex-col justify-center items-center gap-4 text-red-500">
               <XCircle />
               <Text className="">{errorMessage}</Text>
             </div>

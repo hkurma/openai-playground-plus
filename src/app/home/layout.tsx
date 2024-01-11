@@ -62,14 +62,13 @@ const Navbar = () => {
             {menu.name}
           </Link>
         ))}
+        <Link
+          href="https://github.com/hkurma/openai-playground-plus"
+          target="_blank"
+        >
+          <GithubSVG width="26" height="26" />
+        </Link>
       </div>
-      <Link
-        className="hidden md:flex"
-        href="https://github.com/hkurma/openai-playground-plus"
-        target="_blank"
-      >
-        <GithubSVG width="26" height="26" />
-      </Link>
     </div>
   );
 };
