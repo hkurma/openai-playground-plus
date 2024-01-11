@@ -2,6 +2,8 @@
 
 Play with OpenAI API's using your own API Key. Your API Key is stored and used only from your browser.
 
+[Playground+](https://openai-playground-plus.vercel.app)
+
 ## API's
 
 These OpenAI API's are currently supported in the playground.
