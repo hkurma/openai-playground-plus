@@ -19,7 +19,7 @@ import openai from "@/lib/openai";
 import { cn } from "@/lib/utils";
 import { ArrowUpRight, MessageSquare, Send, XCircle } from "lucide-react";
 import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const models = [
   { name: "gpt-3.5-turbo-1106" },
@@ -80,8 +80,12 @@ const Chat = () => {
         max_tokens: 4096,
       })
       .then((completionResponse) => {
-        newMessages.push(completionResponse.choices[0].message);
-        setMessages(newMessages);
+        setMessages((prevMessages) => {
+          return [
+            ...prevMessages,
+            { ...completionResponse.choices[0].message },
+          ];
+        });
       })
       .catch((err) => {
         setErrorMessage(err.message);
@@ -112,6 +116,11 @@ const Chat = () => {
     };
     reader.readAsDataURL(file);
   };
+
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   return (
     <div className="h-full w-full flex overflow-hidden px-4 py-6 gap-4">
@@ -163,6 +172,7 @@ const Chat = () => {
               <Text className="">{errorMessage}</Text>
             </div>
           )}
+          <div ref={messagesEndRef} />
         </div>
         <div className="flex gap-4">
           <Input
