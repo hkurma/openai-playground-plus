@@ -1,49 +1,93 @@
 "use client";
 
-import { Button, Input, Select, Text, Textarea } from "@/components";
+import { LoadingSVG } from "@/components/svgs/LoadingSVG";
+import {
+  Button,
+  Input,
+  Label,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Text,
+  Textarea,
+} from "@/components/ui";
 import { DEFAULT_SYSTEM_INSTRUCTIONS } from "@/lib/constants";
 import openai from "@/lib/openai";
-import classNames from "classnames";
+import { cn } from "@/lib/utils";
+import { MessageSquare, Send, XCircle } from "lucide-react";
 import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 import { useState } from "react";
-import { MessageSquare, Send } from "react-feather";
+
+const models = [
+  { name: "gpt-3.5-turbo-1106" },
+  { name: "gpt-4-1106-preview" },
+  {
+    name: "gpt-4-vision-preview",
+  },
+];
 
 const Chat = () => {
   const [systemInstructions, setSystemInstructions] = useState<string>("");
   const [userMessage, setUserMessage] = useState<string>("");
+  const [userFile, setUserFile] = useState<string>("");
   const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
   const [pendingCompletion, setPendingCompletion] = useState<boolean>(false);
   const [options, setOptions] = useState<{
     model: string;
     temperature: number;
+    maxtokens: number;
   }>({
     model: "gpt-3.5-turbo-1106",
     temperature: 1,
+    maxtokens: 4096,
   });
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const handleSend = async () => {
+  const handleSend = () => {
     setPendingCompletion(true);
     const newMessages = [...messages];
-    newMessages.push({
-      role: "user",
-      content: userMessage,
-    });
+    if (!userFile) {
+      newMessages.push({
+        role: "user",
+        content: userMessage,
+      });
+    } else {
+      newMessages.push({
+        role: "user",
+        content: [
+          { type: "text", text: userMessage },
+          { type: "image_url", image_url: { url: userFile } },
+        ],
+      });
+    }
     setMessages(newMessages);
     setUserMessage("");
-    const completionResponse = await openai.chat.completions.create({
-      model: options.model,
-      messages: [
-        {
-          role: "system",
-          content: systemInstructions ?? DEFAULT_SYSTEM_INSTRUCTIONS,
-        },
-        ...newMessages,
-      ],
-      temperature: options.temperature,
-    });
-    newMessages.push(completionResponse.choices[0].message);
-    setMessages(newMessages);
-    setPendingCompletion(false);
+    setUserFile("");
+    openai.chat.completions
+      .create({
+        model: options.model,
+        messages: [
+          {
+            role: "system",
+            content: systemInstructions ?? DEFAULT_SYSTEM_INSTRUCTIONS,
+          },
+          ...newMessages,
+        ],
+        temperature: options.temperature,
+        max_tokens: 4096,
+      })
+      .then((completionResponse) => {
+        newMessages.push(completionResponse.choices[0].message);
+        setMessages(newMessages);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setPendingCompletion(false);
+      });
   };
 
   const handleInputMessageKeyUp = (
@@ -55,151 +99,133 @@ const Chat = () => {
     }
   };
 
+  const handleInputFileChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      console.log;
+      setUserFile(e.target?.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
   return (
-    <div className="h-full w-full flex overflow-hidden">
-      <div className="hidden lg:flex flex-col lg:w-1/4 xl:w-1/5 border-r">
-        <Text className="font-medium p-4 border-b">System Message</Text>
-        <Textarea
-          name="systemMessage"
-          className="flex-1 border-none resize-none"
-          placeholder={DEFAULT_SYSTEM_INSTRUCTIONS}
-          onChange={setSystemInstructions}
-          value={systemInstructions}
-        />
+    <div className="h-full w-full flex overflow-hidden px-4 py-6 gap-4">
+      <div className="hidden lg:flex flex-col lg:w-1/4 xl:w-1/5 gap-6">
+        <div className="flex-1 flex flex-col gap-3">
+          <Label htmlFor="systemMessage">System Message</Label>
+          <Textarea
+            name="systemMessage"
+            id="systemMessage"
+            className="h-full resize-none"
+            placeholder={DEFAULT_SYSTEM_INSTRUCTIONS}
+            onChange={(e) => setSystemInstructions(e.target.value)}
+            value={systemInstructions}
+          />
+        </div>
       </div>
       <div className="flex-1 flex flex-col gap-4">
-        <div
-          className={classNames(
-            "flex-1 flex flex-col gap-4 px-4 pt-8 overflow-auto",
-            messages.length === 0 && "justify-center items-center"
-          )}
-        >
+        <div className="flex-1 flex flex-col gap-4 overflow-auto">
           {messages.length === 0 && (
-            <>
+            <div className="w-full h-full flex flex-col justify-center items-center gap-3">
               <MessageSquare />
-              <Text className="font-medium">
-                Send a message to start your chat
-              </Text>
-            </>
+              <Text variant="medium">Send a message to start your chat</Text>
+            </div>
           )}
           {messages
             .filter((m) => m.role != "system")
             .map((message, index) => (
               <Text
                 key={index}
-                className={classNames(
-                  "p-4 border border-primary-300 rounded w-fit",
-                  message.role === "assistant" && "bg-primary-50",
+                className={cn(
+                  "p-3 border rounded-md w-fit",
+                  message.role === "assistant" && "bg-slate-100",
                   message.role === "user" && "ml-auto"
                 )}
               >
-                {message.content as string}
+                {typeof message.content == "string"
+                  ? message.content
+                  : (message.content as any)[0].text}
               </Text>
             ))}
           {pendingCompletion && (
-            <div
-              className={classNames(
-                "p-4 border border-primary-300 rounded w-fit bg-primary-50 text-primary-500"
-              )}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-              >
-                <circle cx="4" cy="12" r="3" fill="currentColor">
-                  <animate
-                    id="svgSpinners3DotsBounce0"
-                    attributeName="cy"
-                    begin="0;svgSpinners3DotsBounce1.end+0.25s"
-                    calcMode="spline"
-                    dur="0.6s"
-                    keySplines=".33,.66,.66,1;.33,0,.66,.33"
-                    values="12;6;12"
-                  />
-                </circle>
-                <circle cx="12" cy="12" r="3" fill="currentColor">
-                  <animate
-                    attributeName="cy"
-                    begin="svgSpinners3DotsBounce0.begin+0.1s"
-                    calcMode="spline"
-                    dur="0.6s"
-                    keySplines=".33,.66,.66,1;.33,0,.66,.33"
-                    values="12;6;12"
-                  />
-                </circle>
-                <circle cx="20" cy="12" r="3" fill="currentColor">
-                  <animate
-                    id="svgSpinners3DotsBounce1"
-                    attributeName="cy"
-                    begin="svgSpinners3DotsBounce0.begin+0.2s"
-                    calcMode="spline"
-                    dur="0.6s"
-                    keySplines=".33,.66,.66,1;.33,0,.66,.33"
-                    values="12;6;12"
-                  />
-                </circle>
-              </svg>
+            <div className="p-3 border rounded w-fit bg-slate-100">
+              <LoadingSVG />
+            </div>
+          )}
+          {errorMessage && (
+            <div className="w-full h-full flex flex-col items-center gap-4 text-red-500">
+              <XCircle />
+              <Text className="">{errorMessage}</Text>
             </div>
           )}
         </div>
-        <div className="flex gap-4 px-4 pb-8">
+        <div className="flex gap-4">
           <Input
             name="userMessage"
-            className="flex-1 p-4"
+            className="flex-1"
             placeholder="Enter your message"
             value={userMessage}
-            onChange={setUserMessage}
+            onChange={(e) => setUserMessage(e.target.value)}
             onKeyUp={handleInputMessageKeyUp}
           />
-          <Button className="p-4" onClick={handleSend}>
+          <Button onClick={handleSend}>
             <Send size={18} />
           </Button>
         </div>
       </div>
-      <div className="hidden lg:flex flex-col lg:w-1/4 xl:w-1/5 border-l">
-        <Text className="font-medium p-4 border-b">Options</Text>
-        <div className="flex-1 p-4 flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            <label htmlFor="model" className="text-sm">
-              Model
-            </label>
-            <Select
-              name="model"
-              id="model"
-              placeholder="Model"
-              options={[
-                { label: "gpt-3.5-turbo-1106", value: "gpt-3.5-turbo-1106" },
-                { label: "gpt-4-1106-preview", value: "gpt-4-1106-preview" },
-                {
-                  label: "gpt-4-vision-preview",
-                  value: "gpt-4-vision-preview",
-                },
-              ]}
-              value={options.model}
-              onChange={(option) =>
-                setOptions({ ...options, model: option.value })
-              }
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="temperature" className="text-sm">
-              Temperature
-            </label>
-            <Input
-              id="temperature"
-              name="temperature"
-              type="number"
-              min={0}
-              max={2}
-              placeholder="Temperature"
-              value={String(options.temperature)}
-              onChange={(value) =>
-                setOptions({ ...options, temperature: Number(value) })
-              }
-            />
-          </div>
+      <div className="hidden lg:flex flex-col lg:w-1/4 xl:w-1/5 gap-6">
+        <div className="flex flex-col gap-3">
+          <Label>Model</Label>
+          <Select
+            name="model"
+            value={options.model}
+            onValueChange={(value) => setOptions({ ...options, model: value })}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select a model" />
+            </SelectTrigger>
+            <SelectContent>
+              {models.map((model, index) => (
+                <SelectItem key={index} value={model.name}>
+                  {model.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="flex flex-col gap-3">
+          <Label htmlFor="temperature">Temperature</Label>
+          <Input
+            id="temperature"
+            name="temperature"
+            type="number"
+            min={0}
+            max={2}
+            placeholder="Temperature"
+            value={options.temperature}
+            onChange={(e) =>
+              setOptions({ ...options, temperature: Number(e.target.value) })
+            }
+          />
+        </div>
+        <div className="flex flex-col gap-3">
+          <Label htmlFor="maxtokens">Max Tokens</Label>
+          <Input
+            id="maxtokens"
+            name="maxtokens"
+            type="number"
+            min={0}
+            max={4096}
+            placeholder="Max Tokens"
+            value={options.maxtokens}
+            onChange={(e) =>
+              setOptions({ ...options, maxtokens: Number(e.target.value) })
+            }
+          />
         </div>
       </div>
     </div>

@@ -1,10 +1,10 @@
 "use client";
 
-import { Button, Link, Logo, Text } from "@/components";
-import Input from "@/components/Input";
-import { APP_DESCRIPTION, APP_TITLE, STORAGE_KEY } from "@/lib/constants";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { OpenAISVG } from "@/components/svgs";
+import { Text, Button, Input, Link } from "@/components/ui";
+import { APP_DESCRIPTION, APP_TITLE, STORAGE_KEY } from "@/lib/constants";
 
 const Index = () => {
   const [apiKey, setApiKey] = useState<string>("");
@@ -21,11 +21,11 @@ const Index = () => {
   };
 
   return (
-    <div className="container p-4 m-auto h-screen flex flex-col justify-center text-center items-center gap-8">
+    <div className="container h-screen flex flex-col justify-center items-center text-center gap-8">
       <div className="flex flex-col gap-4 justify-center items-center">
-        <Logo width="48" height="48" />
-        <Text className="text-4xl font-medium">{APP_TITLE}</Text>
-        <Text className="text-xl">{APP_DESCRIPTION}</Text>
+        <OpenAISVG width="48" height="48" />
+        <Text variant="title">{APP_TITLE}</Text>
+        <Text variant="large">{APP_DESCRIPTION}</Text>
       </div>
       <div className="w-full flex flex-col gap-4 justify-center items-center">
         <Input
@@ -33,20 +33,16 @@ const Index = () => {
           name="apiKey"
           placeholder="Enter your OpenAI API Key"
           value={apiKey}
-          onChange={setApiKey}
+          onChange={(e) => setApiKey(e.target.value)}
         />
         <Button onClick={handleSubmit}>Submit</Button>
       </div>
-      <Text className="flex gap-2 text-sm">
+      <Link
+        href="https://platform.openai.com/docs/api-reference/authentication"
+        target="_blank"
+      >
         Where to find API Key?
-        <Link
-          className="text-sm text-primary-500 hover:text-primary-600 transition duration-200 ease-in-out"
-          href="https://platform.openai.com/docs/api-reference/authentication"
-          target="_blank"
-        >
-          OpenAI API Reference
-        </Link>
-      </Text>
+      </Link>
     </div>
   );
 };

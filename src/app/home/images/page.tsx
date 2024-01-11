@@ -1,12 +1,26 @@
 "use client";
 
-import { Button, Input, Select, Text } from "@/components";
+import { LoadingSVG } from "@/components/svgs/LoadingSVG";
+import {
+  Button,
+  Input,
+  Label,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Text,
+} from "@/components/ui";
 import openai from "@/lib/openai";
-import classNames from "classnames";
+import { MessageSquare, Send, XCircle } from "lucide-react";
 import Image from "next/image";
 import { Image as ImageResponse } from "openai/resources/images.mjs";
 import { useState } from "react";
-import { Image as ImageIcon, Send, XCircle } from "react-feather";
+
+const models = [{ name: "dall-e-2" }, { name: "dall-e-3" }];
+
+const styles = [{ name: "vivid" }, { name: "natural" }];
 
 const Images = () => {
   const [prompt, setPrompt] = useState<string>("");
@@ -54,15 +68,18 @@ const Images = () => {
   };
 
   return (
-    <div className="h-full w-full flex">
+    <div className="h-full w-full flex overflow-hidden px-4 py-6 gap-4">
       <div className="flex-1 flex flex-col gap-4">
-        <div className="flex-1 flex gap-4 px-4 pt-8 overflow-auto justify-center items-center flex-wrap">
-          {!errorMessage && !pendingGeneration && images.length === 0 && (
-            <div className="flex flex-col gap-4 items-center">
-              <ImageIcon />
-              <Text className="font-medium">
-                Send a prompt to generate images
-              </Text>
+        <div className="flex-1 flex gap-4 justify-center items-center overflow-auto flex-wrap">
+          {!pendingGeneration && images.length === 0 && !errorMessage && (
+            <div className="w-full h-full flex flex-col justify-center items-center gap-3">
+              <MessageSquare />
+              <Text variant="medium">Send a prompt to generate images</Text>
+            </div>
+          )}
+          {pendingGeneration && (
+            <div className="p-3 border rounded w-fit bg-slate-100">
+              <LoadingSVG />
             </div>
           )}
           {images.map((image, index) => (
@@ -75,129 +92,79 @@ const Images = () => {
             />
           ))}
           {errorMessage && (
-            <div className="flex flex-col items-center gap-4 text-red-500">
+            <div className="w-full h-full flex flex-col items-center gap-4 text-red-500">
               <XCircle />
               <Text className="">{errorMessage}</Text>
             </div>
           )}
-          {pendingGeneration && (
-            <div
-              className={classNames(
-                "p-4 border border-primary-300 rounded w-fit bg-primary-50 text-primary-500"
-              )}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-              >
-                <circle cx="4" cy="12" r="3" fill="currentColor">
-                  <animate
-                    id="svgSpinners3DotsBounce0"
-                    attributeName="cy"
-                    begin="0;svgSpinners3DotsBounce1.end+0.25s"
-                    calcMode="spline"
-                    dur="0.6s"
-                    keySplines=".33,.66,.66,1;.33,0,.66,.33"
-                    values="12;6;12"
-                  />
-                </circle>
-                <circle cx="12" cy="12" r="3" fill="currentColor">
-                  <animate
-                    attributeName="cy"
-                    begin="svgSpinners3DotsBounce0.begin+0.1s"
-                    calcMode="spline"
-                    dur="0.6s"
-                    keySplines=".33,.66,.66,1;.33,0,.66,.33"
-                    values="12;6;12"
-                  />
-                </circle>
-                <circle cx="20" cy="12" r="3" fill="currentColor">
-                  <animate
-                    id="svgSpinners3DotsBounce1"
-                    attributeName="cy"
-                    begin="svgSpinners3DotsBounce0.begin+0.2s"
-                    calcMode="spline"
-                    dur="0.6s"
-                    keySplines=".33,.66,.66,1;.33,0,.66,.33"
-                    values="12;6;12"
-                  />
-                </circle>
-              </svg>
-            </div>
-          )}
         </div>
-        <div className="flex gap-4 px-4 pb-8">
+        <div className="flex gap-4">
           <Input
             name="userMessage"
-            className="flex-1 p-4"
+            className="flex-1"
             placeholder="Enter your prompt"
             value={prompt}
-            onChange={setPrompt}
+            onChange={(e) => setPrompt(e.target.value)}
             onKeyUp={handleInputMessageKeyUp}
           />
-          <Button className="p-4" onClick={handleSend}>
+          <Button onClick={handleSend}>
             <Send size={18} />
           </Button>
         </div>
       </div>
-      <div className="hidden lg:flex flex-col lg:w-1/4 xl:w-1/5 border-l">
-        <Text className="font-medium p-4 border-b">Options</Text>
-        <div className="flex-1 p-4 flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            <label htmlFor="model" className="text-sm">
-              Model
-            </label>
-            <Select
-              id="model"
-              name="model"
-              placeholder="Model"
-              options={[
-                { label: "dall-e-2", value: "dall-e-2" },
-                { label: "dall-e-3", value: "dall-e-3" },
-              ]}
-              value={options.model}
-              onChange={(option) =>
-                setOptions({ ...options, model: option.value })
-              }
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="count" className="text-sm">
-              N
-            </label>
-            <Input
-              id="count"
-              name="count"
-              type="number"
-              min={1}
-              max={10}
-              placeholder="Count"
-              value={String(options.count)}
-              onChange={(value) =>
-                setOptions({ ...options, count: Number(value) })
-              }
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="style" className="text-sm">
-              Style
-            </label>
-            <Select
-              id="style"
-              name="style"
-              options={[
-                { label: "vivid", value: "vivid" },
-                { label: "natural", value: "natural" },
-              ]}
-              placeholder="Style"
-              value={String(options.style)}
-              onChange={(option) =>
-                setOptions({ ...options, style: option.value })
-              }
-            />
-          </div>
+      <div className="hidden lg:flex flex-col lg:w-1/4 xl:w-1/5 gap-6">
+        <div className="flex flex-col gap-3">
+          <Label>Model</Label>
+          <Select
+            name="model"
+            value={options.model}
+            onValueChange={(value) => setOptions({ ...options, model: value })}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select a model" />
+            </SelectTrigger>
+            <SelectContent>
+              {models.map((model, index) => (
+                <SelectItem key={index} value={model.name}>
+                  {model.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="flex flex-col gap-3">
+          <Label htmlFor="count">N</Label>
+          <Input
+            id="count"
+            name="count"
+            type="number"
+            min={1}
+            max={10}
+            placeholder="Count"
+            value={options.count}
+            onChange={(e) =>
+              setOptions({ ...options, count: Number(e.target.value) })
+            }
+          />
+        </div>
+        <div className="flex flex-col gap-3">
+          <Label>Style</Label>
+          <Select
+            name="style"
+            value={options.style}
+            onValueChange={(value) => setOptions({ ...options, style: value })}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select a stylee" />
+            </SelectTrigger>
+            <SelectContent>
+              {styles.map((style, index) => (
+                <SelectItem key={index} value={style.name}>
+                  {style.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </div>
     </div>

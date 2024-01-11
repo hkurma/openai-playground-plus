@@ -1,11 +1,27 @@
 "use client";
 
-import { Button, Input, Select, Text } from "@/components";
+import { LoadingSVG } from "@/components/svgs/LoadingSVG";
+import {
+  Button,
+  Input,
+  Label,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Text,
+} from "@/components/ui";
 import openai from "@/lib/openai";
-import classNames from "classnames";
+import { cn } from "@/lib/utils";
+import { MessageSquare, Send } from "lucide-react";
 import { Moderation } from "openai/resources/moderations.mjs";
 import { useState } from "react";
-import { MessageSquare, Send } from "react-feather";
+
+const models = [
+  { name: "text-moderation-latest" },
+  { name: "text-moderation-stable" },
+];
 
 const Moderations = () => {
   const [inputText, setInputText] = useState<string>("");
@@ -37,62 +53,18 @@ const Moderations = () => {
   };
 
   return (
-    <div className="h-full w-full flex">
+    <div className="h-full w-full flex overflow-hidden px-4 py-6 gap-4">
       <div className="flex-1 flex flex-col gap-4">
-        <div className="flex-1 flex gap-4 px-4 pt-8 overflow-auto justify-center items-center flex-wrap">
+        <div className="flex-1 flex gap-4 justify-center items-center overflow-auto flex-wrap">
           {!moderation && !pending && (
-            <div className="flex flex-col gap-4 items-center">
+            <div className="w-full h-full flex flex-col justify-center items-center gap-3">
               <MessageSquare />
-              <Text className="font-medium">
-                Send a text to check moderation.
-              </Text>
+              <Text variant="medium">Send a text to check moderation.</Text>
             </div>
           )}
           {pending && (
-            <div
-              className={classNames(
-                "p-4 border border-primary-300 rounded w-fit bg-primary-50 text-primary-500"
-              )}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-              >
-                <circle cx="4" cy="12" r="3" fill="currentColor">
-                  <animate
-                    id="svgSpinners3DotsBounce0"
-                    attributeName="cy"
-                    begin="0;svgSpinners3DotsBounce1.end+0.25s"
-                    calcMode="spline"
-                    dur="0.6s"
-                    keySplines=".33,.66,.66,1;.33,0,.66,.33"
-                    values="12;6;12"
-                  />
-                </circle>
-                <circle cx="12" cy="12" r="3" fill="currentColor">
-                  <animate
-                    attributeName="cy"
-                    begin="svgSpinners3DotsBounce0.begin+0.1s"
-                    calcMode="spline"
-                    dur="0.6s"
-                    keySplines=".33,.66,.66,1;.33,0,.66,.33"
-                    values="12;6;12"
-                  />
-                </circle>
-                <circle cx="20" cy="12" r="3" fill="currentColor">
-                  <animate
-                    id="svgSpinners3DotsBounce1"
-                    attributeName="cy"
-                    begin="svgSpinners3DotsBounce0.begin+0.2s"
-                    calcMode="spline"
-                    dur="0.6s"
-                    keySplines=".33,.66,.66,1;.33,0,.66,.33"
-                    values="12;6;12"
-                  />
-                </circle>
-              </svg>
+            <div className="p-3 border rounded w-fit bg-slate-100">
+              <LoadingSVG />
             </div>
           )}
           {moderation &&
@@ -100,59 +72,51 @@ const Moderations = () => {
             Object.entries(moderation.categories).map((category) => (
               <div
                 key={category[0]}
-                className={classNames(
-                  "flex flex-col items-center justify-center gap-4 border  rounded p-4",
+                className={cn(
+                  "flex flex-col items-center justify-center gap-4 border rounded-md p-4",
                   category[1]
                     ? "border-red-300 text-red-500 bg-red-50"
-                    : "border-primary-300 text-primary-500 bg-primary-50"
+                    : "bg-slate-50"
                 )}
               >
-                <Text className="text-xl text-medium">{category[0]}</Text>
+                <Text variant="medium">{category[0]}</Text>
                 <Text>{(moderation.category_scores as any)[category[0]]}</Text>
               </div>
             ))}
         </div>
-        <div className="flex gap-4 px-4 pb-8">
+        <div className="flex gap-4">
           <Input
             name="text"
-            className="flex-1 p-4"
+            className="flex-1"
             placeholder="Enter your text"
             value={inputText}
-            onChange={setInputText}
+            onChange={(e) => setInputText(e.target.value)}
             onKeyUp={handleInputMessageKeyUp}
           />
-          <Button className="p-4" onClick={handleSend}>
+          <Button onClick={handleSend}>
             <Send size={18} />
           </Button>
         </div>
       </div>
-      <div className="hidden lg:flex flex-col lg:w-1/4 xl:w-1/5 border-l">
-        <Text className="font-medium p-4 border-b">Options</Text>
-        <div className="flex-1 p-4 flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            <label htmlFor="model" className="text-sm">
-              Model
-            </label>
-            <Select
-              id="model"
-              name="model"
-              placeholder="Model"
-              options={[
-                {
-                  label: "text-moderation-latest",
-                  value: "text-moderation-latest",
-                },
-                {
-                  label: "text-moderation-stable",
-                  value: "text-moderation-stable",
-                },
-              ]}
-              value={options.model}
-              onChange={(option) =>
-                setOptions({ ...options, model: option.value })
-              }
-            />
-          </div>
+      <div className="hidden lg:flex flex-col lg:w-1/4 xl:w-1/5 gap-6">
+        <div className="flex flex-col gap-3">
+          <Label>Model</Label>
+          <Select
+            name="model"
+            value={options.model}
+            onValueChange={(value) => setOptions({ ...options, model: value })}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select a model" />
+            </SelectTrigger>
+            <SelectContent>
+              {models.map((model, index) => (
+                <SelectItem key={index} value={model.name}>
+                  {model.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </div>
     </div>
