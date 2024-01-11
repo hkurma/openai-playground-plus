@@ -5,6 +5,7 @@ import {
   Button,
   Input,
   Label,
+  Link,
   Select,
   SelectContent,
   SelectItem,
@@ -14,7 +15,7 @@ import {
 } from "@/components/ui";
 import openai from "@/lib/openai";
 import { cn } from "@/lib/utils";
-import { MessageSquare, Send } from "lucide-react";
+import { ArrowUpRight, MessageSquare, Send } from "lucide-react";
 import { Moderation } from "openai/resources/moderations.mjs";
 import { useState } from "react";
 
@@ -118,6 +119,12 @@ const Moderations = () => {
             </SelectContent>
           </Select>
         </div>
+        <Link
+          href="https://platform.openai.com/docs/api-reference/moderations"
+          target="_blank"
+        >
+          Learn more about moderations <ArrowUpRight size={16} />
+        </Link>
       </div>
     </div>
   );

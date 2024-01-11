@@ -5,6 +5,7 @@ import {
   Button,
   Input,
   Label,
+  Link,
   Select,
   SelectContent,
   SelectItem,
@@ -16,7 +17,7 @@ import {
 import { DEFAULT_SYSTEM_INSTRUCTIONS } from "@/lib/constants";
 import openai from "@/lib/openai";
 import { cn } from "@/lib/utils";
-import { MessageSquare, Send, XCircle } from "lucide-react";
+import { ArrowUpRight, MessageSquare, Send, XCircle } from "lucide-react";
 import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 import { useState } from "react";
 
@@ -227,6 +228,12 @@ const Chat = () => {
             }
           />
         </div>
+        <Link
+          href="https://platform.openai.com/docs/api-reference/chat"
+          target="_blank"
+        >
+          Learn more about chat <ArrowUpRight size={16} />
+        </Link>
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 "use client";
 
-import { Text } from "@/components/ui";
-import { MessageSquare } from "lucide-react";
+import { Link, Text } from "@/components/ui";
+import { ArrowUpRight, MessageSquare } from "lucide-react";
 
 const Assistants = () => {
   return (
@@ -9,6 +9,12 @@ const Assistants = () => {
       <div className="w-full h-full flex flex-col justify-center items-center gap-3">
         <MessageSquare />
         <Text variant="medium">Assistants Coming Soon...!</Text>
+        <Link
+          href="https://platform.openai.com/docs/api-reference/assistants"
+          target="_blank"
+        >
+          Learn more about assistants <ArrowUpRight size={16} />
+        </Link>
       </div>
     </div>
   );

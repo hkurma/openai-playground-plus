@@ -39,12 +39,17 @@ const Tokenizer = () => {
         value={inputText}
         onChange={(e) => setInputText(e.target.value)}
       />
-      <div className="flex gap-2 items-center">
-        <Switch
-          id="tokenIds"
-          onCheckedChange={(checked) => setShowTokenIds(checked)}
-        />
-        <Label htmlFor="tokenIds">Token ID&apos;s</Label>
+      <div className="flex justify-between">
+        <div className="flex gap-2 items-center">
+          <Switch
+            id="tokenIds"
+            onCheckedChange={(checked) => setShowTokenIds(checked)}
+          />
+          <Label htmlFor="tokenIds">Token ID&apos;s</Label>
+        </div>
+        <Link href="https://platform.openai.com/tokenizer" target="_blank">
+          Learn more about tokenization <ArrowUpRight size={16} />
+        </Link>
       </div>
       <div className="w-full flex-1 border rounded-md px-4 py-4 overflow-auto bg-slate-100">
         {(showTokenIds ? encodedTokens : decodedTokens).map((token, index) => (

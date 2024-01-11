@@ -5,6 +5,7 @@ import {
   Button,
   Input,
   Label,
+  Link,
   Select,
   SelectContent,
   SelectItem,
@@ -13,7 +14,7 @@ import {
   Text,
 } from "@/components/ui";
 import openai from "@/lib/openai";
-import { MessageSquare, Send, XCircle } from "lucide-react";
+import { ArrowUpRight, MessageSquare, Send, XCircle } from "lucide-react";
 import Image from "next/image";
 import { Image as ImageResponse } from "openai/resources/images.mjs";
 import { useState } from "react";
@@ -166,6 +167,12 @@ const Images = () => {
             </SelectContent>
           </Select>
         </div>
+        <Link
+          href="https://platform.openai.com/docs/api-reference/images"
+          target="_blank"
+        >
+          Learn more about images <ArrowUpRight size={16} />
+        </Link>
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import {
   Button,
   Input,
   Label,
+  Link,
   Select,
   SelectContent,
   SelectItem,
@@ -13,7 +14,7 @@ import {
 } from "@/components/ui";
 import openai from "@/lib/openai";
 import { cn } from "@/lib/utils";
-import { Trash } from "lucide-react";
+import { ArrowUpRight, Trash } from "lucide-react";
 import { FileObject } from "openai/resources/files.mjs";
 import { ChangeEvent, useEffect, useState } from "react";
 
@@ -113,6 +114,12 @@ const Files = () => {
           <Button onClick={handleFileUpload} disabled={pendingUpload}>
             {pendingUpload ? "Uploading..." : "Upload"}
           </Button>
+          <Link
+            href="https://platform.openai.com/docs/api-reference/files"
+            target="_blank"
+          >
+            Learn more about files <ArrowUpRight size={16} />
+          </Link>
         </div>
       </div>
       <div className="flex-1 flex flex-col gap-6">
