@@ -134,9 +134,8 @@ const Images = () => {
           </Select>
         </div>
         <div className="flex flex-col gap-3">
-          <Label htmlFor="count">N</Label>
+          <Label>N</Label>
           <Input
-            id="count"
             name="count"
             type="number"
             min={1}
@@ -168,10 +167,10 @@ const Images = () => {
           </Select>
         </div>
         <Link
-          href="https://platform.openai.com/docs/api-reference/images"
+          href="https://platform.openai.com/docs/guides/images"
           target="_blank"
         >
-          Learn more about images <ArrowUpRight size={16} />
+          Learn more about image generation <ArrowUpRight size={16} />
         </Link>
       </div>
     </div>

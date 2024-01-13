@@ -120,7 +120,7 @@ const Moderations = () => {
           </Select>
         </div>
         <Link
-          href="https://platform.openai.com/docs/api-reference/moderations"
+          href="https://platform.openai.com/docs/guides/moderation"
           target="_blank"
         >
           Learn more about moderations <ArrowUpRight size={16} />

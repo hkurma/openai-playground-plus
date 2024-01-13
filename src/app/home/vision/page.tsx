@@ -11,6 +11,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  Slider,
   Text,
   Textarea,
 } from '@/components/ui';
@@ -22,14 +23,12 @@ import { ChatCompletionMessageParam } from 'openai/resources/index.mjs';
 import { useEffect, useRef, useState } from 'react';
 
 const models = [
-  { name: 'gpt-3.5-turbo-1106' },
-  { name: 'gpt-4-1106-preview' },
   {
     name: 'gpt-4-vision-preview',
   },
 ];
 
-const Chat = () => {
+const Vision = () => {
   const [systemInstructions, setSystemInstructions] = useState<string>('');
   const [userMessage, setUserMessage] = useState<string>('');
   const [userFile, setUserFile] = useState<string>('');
@@ -40,7 +39,7 @@ const Chat = () => {
     temperature: number;
     maxtokens: number;
   }>({
-    model: 'gpt-3.5-turbo-1106',
+    model: models[0].name,
     temperature: 1,
     maxtokens: 4096,
   });
@@ -107,14 +106,14 @@ const Chat = () => {
   // const handleInputFileChange = (
   //   event: React.ChangeEvent<HTMLInputElement>
   // ) => {
-  //   const file = event.target.files?.[0]
-  //   if (!file) return
-  //   const reader = new FileReader()
+  //   const file = event.target.files?.[0];
+  //   if (!file) return;
+  //   const reader = new FileReader();
   //   reader.onload = (e) => {
-  //     setUserFile(e.target?.result as string)
-  //   }
-  //   reader.readAsDataURL(file)
-  // }
+  //     setUserFile(e.target?.result as string);
+  //   };
+  //   reader.readAsDataURL(file);
+  // };
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -125,10 +124,9 @@ const Chat = () => {
     <div className="h-full w-full flex overflow-hidden px-4 py-6 gap-4">
       <div className="hidden lg:flex flex-col lg:w-1/4 xl:w-1/5 gap-6">
         <div className="flex-1 flex flex-col gap-3">
-          <Label htmlFor="systemMessage">System Message</Label>
+          <Label>System Message</Label>
           <Textarea
             name="systemMessage"
-            id="systemMessage"
             className="h-full resize-none"
             placeholder={DEFAULT_SYSTEM_INSTRUCTIONS}
             onChange={(e) => setSystemInstructions(e.target.value)}
@@ -207,25 +205,24 @@ const Chat = () => {
             </SelectContent>
           </Select>
         </div>
-        <div className="flex flex-col gap-3">
-          <Label htmlFor="temperature">Temperature</Label>
-          <Input
-            id="temperature"
+        <div className="flex flex-col gap-4">
+          <div className="flex justify-between">
+            <Label>Temperature</Label>
+            <Text variant="medium">{options.temperature}</Text>
+          </div>
+          <Slider
             name="temperature"
-            type="number"
-            min={0}
+            value={[options.temperature]}
             max={2}
-            placeholder="Temperature"
-            value={options.temperature}
-            onChange={(e) =>
-              setOptions({ ...options, temperature: Number(e.target.value) })
+            step={0.01}
+            onValueChange={(value) =>
+              setOptions({ ...options, temperature: value[0] })
             }
           />
         </div>
         <div className="flex flex-col gap-3">
-          <Label htmlFor="maxtokens">Max Tokens</Label>
+          <Label>Max Tokens</Label>
           <Input
-            id="maxtokens"
             name="maxtokens"
             type="number"
             min={0}
@@ -238,14 +235,14 @@ const Chat = () => {
           />
         </div>
         <Link
-          href="https://platform.openai.com/docs/api-reference/chat"
+          href="https://platform.openai.com/docs/guides/vision"
           target="_blank"
         >
-          Learn more about chat <ArrowUpRight size={16} />
+          Learn more about vision <ArrowUpRight size={16} />
         </Link>
       </div>
     </div>
   );
 };
 
-export default Chat;
+export default Vision;

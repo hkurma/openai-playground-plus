@@ -42,10 +42,10 @@ const Tokenizer = () => {
       <div className="flex justify-between">
         <div className="flex gap-2 items-center">
           <Switch
-            id="tokenIds"
+            name="tokenIds"
             onCheckedChange={(checked) => setShowTokenIds(checked)}
           />
-          <Label htmlFor="tokenIds">Token ID&apos;s</Label>
+          <Label>Token ID&apos;s</Label>
         </div>
         <Link href="https://platform.openai.com/tokenizer" target="_blank">
           Learn more about tokenization <ArrowUpRight size={16} />

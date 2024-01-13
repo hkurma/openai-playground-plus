@@ -8,3 +8,4 @@ export * from './input';
 export * from './text';
 export * from './link';
 export * from './badge';
+export * from './slider';

@@ -10,7 +10,7 @@ const Assistants = () => {
         <MessageSquare />
         <Text variant="medium">Assistants Coming Soon...!</Text>
         <Link
-          href="https://platform.openai.com/docs/api-reference/assistants"
+          href="https://platform.openai.com/docs/assistants/overview"
           target="_blank"
         >
           Learn more about assistants <ArrowUpRight size={16} />

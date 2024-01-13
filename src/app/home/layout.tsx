@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from 'next/navigation';
 import { HTMLAttributeAnchorTarget, PropsWithChildren, useEffect } from 'react';
 import { OpenAISVG, GithubSVG } from '@/components/svgs';
-import { Link, Text } from '@/components/ui';
+import { Button, Link, Text } from '@/components/ui';
 import { STORAGE_KEY } from '@/lib/constants';
 import openai from '@/lib/openai';
 import { ArrowUpRight } from 'lucide-react';
@@ -12,16 +12,16 @@ type Menu = { name: string; path: string; target?: HTMLAttributeAnchorTarget };
 
 const menus: Menu[] = [
   {
-    name: 'Chat',
-    path: '/home/chat',
+    name: 'Text',
+    path: '/home/text',
+  },
+  {
+    name: 'Vision',
+    path: '/home/vision',
   },
   {
     name: 'Images',
     path: '/home/images',
-  },
-  {
-    name: 'Files',
-    path: '/home/files',
   },
   {
     name: 'Assistants',
@@ -35,11 +35,6 @@ const menus: Menu[] = [
     name: 'Tokenizer',
     path: '/home/tokenizer',
   },
-  {
-    name: 'API Reference',
-    path: 'https://platform.openai.com/docs/api-reference',
-    target: '_blank',
-  },
 ];
 
 const Navbar = () => {
@@ -52,17 +47,25 @@ const Navbar = () => {
         <OpenAISVG width="24" height="24" className="mr-2" />
         <Text variant="heading">Playground+</Text>
       </Link>
-      <div className="flex gap-8 overflow-auto">
+      <div className="flex gap-4 overflow-auto">
         {menus.map((menu, index) => (
-          <Link
+          <Button
             key={index}
-            href={menu.path}
-            variant={menu === activeMenu ? 'active' : 'default'}
-            target={menu.target}
+            asChild
+            size="small"
+            variant={menu === activeMenu ? 'secondary' : 'ghost'}
           >
-            {menu.name} {menu.target && <ArrowUpRight size={16} />}
-          </Link>
+            <Link href={menu.path} target={menu.target} variant="ghost">
+              {menu.name}
+            </Link>
+          </Button>
         ))}
+        <Link
+          href="https://platform.openai.com/docs/api-reference"
+          target="_blank"
+        >
+          API Reference <ArrowUpRight size={16} />
+        </Link>
         <Link
           href="https://github.com/hkurma/openai-playground-plus"
           target="_blank"
