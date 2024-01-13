@@ -18,7 +18,7 @@ const Index = () => {
   const handleSubmit = () => {
     if (!apiKey) return;
     localStorage.setItem(STORAGE_KEY, apiKey);
-    router.push('/home/chat');
+    router.push('/home/text');
   };
 
   return (
