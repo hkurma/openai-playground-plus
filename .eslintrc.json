@@ -4,6 +4,7 @@
     "no-debugger": "error",
     "no-console": "error",
     "prefer-const": "error",
-    "no-unused-vars": "error"
+    "no-unused-vars": "error",
+    "@next/next/no-img-element": "off"
   }
 }

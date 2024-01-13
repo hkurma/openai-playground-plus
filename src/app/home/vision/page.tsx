@@ -18,7 +18,13 @@ import {
 import { DEFAULT_SYSTEM_INSTRUCTIONS } from '@/lib/constants';
 import openai from '@/lib/openai';
 import { cn } from '@/lib/utils';
-import { ArrowUpRight, MessageSquare, Send, XCircle } from 'lucide-react';
+import {
+  ArrowUpRight,
+  MessageSquare,
+  Paperclip,
+  Send,
+  XCircle,
+} from 'lucide-react';
 import { ChatCompletionMessageParam } from 'openai/resources/index.mjs';
 import { useEffect, useRef, useState } from 'react';
 
@@ -32,6 +38,7 @@ const Vision = () => {
   const [systemInstructions, setSystemInstructions] = useState<string>('');
   const [userMessage, setUserMessage] = useState<string>('');
   const [userFile, setUserFile] = useState<string>('');
+  const [userFilename, setUserFilename] = useState<string>('');
   const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
   const [pendingCompletion, setPendingCompletion] = useState<boolean>(false);
   const [options, setOptions] = useState<{
@@ -48,7 +55,7 @@ const Vision = () => {
   const handleSend = () => {
     setPendingCompletion(true);
     const newMessages = [...messages];
-    if (!userFile) {
+    if (!userFilename) {
       newMessages.push({
         role: 'user',
         content: userMessage,
@@ -57,14 +64,14 @@ const Vision = () => {
       newMessages.push({
         role: 'user',
         content: [
-          { type: 'text', text: userMessage },
           { type: 'image_url', image_url: { url: userFile } },
+          { type: 'text', text: userMessage },
         ],
       });
     }
     setMessages(newMessages);
     setUserMessage('');
-    setUserFile('');
+    setUserFilename('');
     openai.chat.completions
       .create({
         model: options.model,
@@ -103,22 +110,48 @@ const Vision = () => {
     }
   };
 
-  // const handleInputFileChange = (
-  //   event: React.ChangeEvent<HTMLInputElement>
-  // ) => {
-  //   const file = event.target.files?.[0];
-  //   if (!file) return;
-  //   const reader = new FileReader();
-  //   reader.onload = (e) => {
-  //     setUserFile(e.target?.result as string);
-  //   };
-  //   reader.readAsDataURL(file);
-  // };
+  const handleInputFileChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setUserFilename(file.name);
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setUserFile(e.target?.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
+
+  const MessageContent = ({
+    role,
+    text,
+    image_url,
+  }: {
+    role: 'function' | 'assistant' | 'user' | 'system' | 'tool';
+    text?: string;
+    image_url?: string;
+  }) => {
+    return (
+      <Text
+        className={cn(
+          'p-3 border rounded-md w-fit',
+          role === 'assistant' && 'bg-slate-100',
+          role === 'user' && 'ml-auto'
+        )}
+      >
+        {text && text}
+        {image_url && (
+          <img src={image_url} alt="" height="auto" className="max-w-xs" />
+        )}
+      </Text>
+    );
+  };
 
   return (
     <div className="h-full w-full flex overflow-hidden px-4 py-6 gap-4">
@@ -144,20 +177,33 @@ const Vision = () => {
           )}
           {messages
             .filter((m) => m.role != 'system')
-            .map((message, index) => (
-              <Text
-                key={index}
-                className={cn(
-                  'p-3 border rounded-md w-fit',
-                  message.role === 'assistant' && 'bg-slate-100',
-                  message.role === 'user' && 'ml-auto'
-                )}
-              >
-                {typeof message.content == 'string'
-                  ? message.content
-                  : (message.content as any)[0].text}
-              </Text>
-            ))}
+            .map((message, index) => {
+              if (typeof message.content == 'string')
+                return (
+                  <MessageContent
+                    key={index}
+                    role={message.role}
+                    text={message.content}
+                  />
+                );
+              return message.content?.map((content, index) => {
+                if (content.type == 'text')
+                  return (
+                    <MessageContent
+                      key={index}
+                      role={message.role}
+                      text={content.text}
+                    />
+                  );
+                return (
+                  <MessageContent
+                    key={index}
+                    role={message.role}
+                    image_url={content.image_url.url}
+                  />
+                );
+              });
+            })}
           {pendingCompletion && (
             <div className="p-3 border rounded w-fit bg-slate-100">
               <LoadingSVG />
@@ -170,6 +216,20 @@ const Vision = () => {
             </div>
           )}
           <div ref={messagesEndRef} />
+        </div>
+        <div className="flex gap-4 items-center">
+          <Button variant="secondary" asChild size="small">
+            <Label htmlFor="inputFile" className="cursor-pointer">
+              <Paperclip size={18} className="mr-2" />{' '}
+              {!userFilename ? 'Select File' : userFilename}
+            </Label>
+          </Button>
+          <Input
+            id="inputFile"
+            type="file"
+            className="hidden"
+            onChange={handleInputFileChange}
+          />
         </div>
         <div className="flex gap-4">
           <Input
