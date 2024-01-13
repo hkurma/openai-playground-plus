@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { LoadingSVG } from "@/components/svgs/LoadingSVG";
+import { LoadingSVG } from '@/components/svgs/LoadingSVG';
 import {
   Button,
   Input,
@@ -12,26 +12,26 @@ import {
   SelectTrigger,
   SelectValue,
   Text,
-} from "@/components/ui";
-import openai from "@/lib/openai";
-import { cn } from "@/lib/utils";
-import { ArrowUpRight, MessageSquare, Send } from "lucide-react";
-import { Moderation } from "openai/resources/moderations.mjs";
-import { useState } from "react";
+} from '@/components/ui';
+import openai from '@/lib/openai';
+import { cn } from '@/lib/utils';
+import { ArrowUpRight, MessageSquare, Send } from 'lucide-react';
+import { Moderation } from 'openai/resources/moderations.mjs';
+import { useState } from 'react';
 
 const models = [
-  { name: "text-moderation-latest" },
-  { name: "text-moderation-stable" },
+  { name: 'text-moderation-latest' },
+  { name: 'text-moderation-stable' },
 ];
 
 const Moderations = () => {
-  const [inputText, setInputText] = useState<string>("");
+  const [inputText, setInputText] = useState<string>('');
   const [pending, setPending] = useState<boolean>(false);
   const [moderation, setModeration] = useState<Moderation>();
   const [options, setOptions] = useState<{
     model: string;
   }>({
-    model: "text-moderation-latest",
+    model: 'text-moderation-latest',
   });
 
   const handleSend = async () => {
@@ -47,7 +47,7 @@ const Moderations = () => {
   const handleInputMessageKeyUp = (
     event: React.KeyboardEvent<HTMLInputElement>
   ) => {
-    if (event.key === "Enter") {
+    if (event.key === 'Enter') {
       handleSend();
       event.preventDefault();
     }
@@ -74,10 +74,10 @@ const Moderations = () => {
               <div
                 key={category[0]}
                 className={cn(
-                  "flex flex-col items-center justify-center gap-4 border rounded-md p-4",
+                  'flex flex-col items-center justify-center gap-4 border rounded-md p-4',
                   category[1]
-                    ? "border-red-300 text-red-500 bg-red-50"
-                    : "bg-slate-50"
+                    ? 'border-red-300 text-red-500 bg-red-50'
+                    : 'bg-slate-50'
                 )}
               >
                 <Text variant="medium">{category[0]}</Text>

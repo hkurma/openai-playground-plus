@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { Link, Text } from "@/components/ui";
-import { ArrowUpRight, MessageSquare } from "lucide-react";
+import { Link, Text } from '@/components/ui';
+import { ArrowUpRight, MessageSquare } from 'lucide-react';
 
 const Assistants = () => {
   return (

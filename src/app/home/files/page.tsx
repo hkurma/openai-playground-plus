@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Button,
@@ -11,21 +11,21 @@ import {
   SelectTrigger,
   SelectValue,
   Text,
-} from "@/components/ui";
-import openai from "@/lib/openai";
-import { cn } from "@/lib/utils";
-import { ArrowUpRight, Trash } from "lucide-react";
-import { FileObject } from "openai/resources/files.mjs";
-import { ChangeEvent, useEffect, useState } from "react";
+} from '@/components/ui';
+import openai from '@/lib/openai';
+import { cn } from '@/lib/utils';
+import { ArrowUpRight, Trash } from 'lucide-react';
+import { FileObject } from 'openai/resources/files.mjs';
+import { ChangeEvent, useEffect, useState } from 'react';
 
-const purposes = [{ name: "assistants" }, { name: "fine-tune" }];
+const purposes = [{ name: 'assistants' }, { name: 'fine-tune' }];
 
 const Files = () => {
   const [files, setFiles] = useState<FileObject[]>([]);
   const [fileDetails, setFileDetails] = useState<FileObject | null>(null);
   const [inputFile, setInputFile] = useState<File | null>(null);
   const [inputFilePurpose, setInputFilePurpose] =
-    useState<string>("assistants");
+    useState<string>('assistants');
   const [pendingUpload, setPendingUpload] = useState<boolean>(false);
 
   useEffect(() => {
@@ -60,7 +60,7 @@ const Files = () => {
     openai.files
       .create({
         file: inputFile,
-        purpose: inputFilePurpose as "fine-tune" | "assistants",
+        purpose: inputFilePurpose as 'fine-tune' | 'assistants',
       })
       .then((file) => {
         setInputFile(null);
@@ -112,7 +112,7 @@ const Files = () => {
             </Select>
           </div>
           <Button onClick={handleFileUpload} disabled={pendingUpload}>
-            {pendingUpload ? "Uploading..." : "Upload"}
+            {pendingUpload ? 'Uploading...' : 'Upload'}
           </Button>
           <Link
             href="https://platform.openai.com/docs/api-reference/files"
@@ -129,7 +129,7 @@ const Files = () => {
             <Button
               key={file.id}
               variant="outline"
-              className={cn(file.id === fileDetails?.id && "bg-slate-100")}
+              className={cn(file.id === fileDetails?.id && 'bg-slate-100')}
               onClick={() => {
                 setFileDetails(file);
               }}

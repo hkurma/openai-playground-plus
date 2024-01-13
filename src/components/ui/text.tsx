@@ -1,20 +1,20 @@
-import { cn } from "@/lib/utils";
-import { VariantProps, cva } from "class-variance-authority";
-import React from "react";
+import { cn } from '@/lib/utils';
+import { VariantProps, cva } from 'class-variance-authority';
+import React from 'react';
 
-const textVariants = cva("scroll-m-20 tracking-tight", {
+const textVariants = cva('scroll-m-20 tracking-tight', {
   variants: {
     variant: {
-      default: "text-sm",
-      title: "text-4xl font-bold",
-      heading: "text-2xl font-semibold",
-      large: "text-lg font-medium",
-      medium: "text-md font-medium",
-      muted: "text-sm text-muted-foreground",
+      default: 'text-sm',
+      title: 'text-4xl font-bold',
+      heading: 'text-2xl font-semibold',
+      large: 'text-lg font-medium',
+      medium: 'text-md font-medium',
+      muted: 'text-sm text-muted-foreground',
     },
   },
   defaultVariants: {
-    variant: "default",
+    variant: 'default',
   },
 });
 
@@ -31,6 +31,6 @@ const Text = React.forwardRef<HTMLDivElement, TextProps>(
     );
   }
 );
-Text.displayName = "Text";
+Text.displayName = 'Text';
 
 export { Text };

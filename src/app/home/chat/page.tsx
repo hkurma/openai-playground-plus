@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { LoadingSVG } from "@/components/svgs/LoadingSVG";
+import { LoadingSVG } from '@/components/svgs/LoadingSVG';
 import {
   Button,
   Input,
@@ -13,26 +13,26 @@ import {
   SelectValue,
   Text,
   Textarea,
-} from "@/components/ui";
-import { DEFAULT_SYSTEM_INSTRUCTIONS } from "@/lib/constants";
-import openai from "@/lib/openai";
-import { cn } from "@/lib/utils";
-import { ArrowUpRight, MessageSquare, Send, XCircle } from "lucide-react";
-import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
-import { useEffect, useRef, useState } from "react";
+} from '@/components/ui';
+import { DEFAULT_SYSTEM_INSTRUCTIONS } from '@/lib/constants';
+import openai from '@/lib/openai';
+import { cn } from '@/lib/utils';
+import { ArrowUpRight, MessageSquare, Send, XCircle } from 'lucide-react';
+import { ChatCompletionMessageParam } from 'openai/resources/index.mjs';
+import { useEffect, useRef, useState } from 'react';
 
 const models = [
-  { name: "gpt-3.5-turbo-1106" },
-  { name: "gpt-4-1106-preview" },
+  { name: 'gpt-3.5-turbo-1106' },
+  { name: 'gpt-4-1106-preview' },
   {
-    name: "gpt-4-vision-preview",
+    name: 'gpt-4-vision-preview',
   },
 ];
 
 const Chat = () => {
-  const [systemInstructions, setSystemInstructions] = useState<string>("");
-  const [userMessage, setUserMessage] = useState<string>("");
-  const [userFile, setUserFile] = useState<string>("");
+  const [systemInstructions, setSystemInstructions] = useState<string>('');
+  const [userMessage, setUserMessage] = useState<string>('');
+  const [userFile, setUserFile] = useState<string>('');
   const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
   const [pendingCompletion, setPendingCompletion] = useState<boolean>(false);
   const [options, setOptions] = useState<{
@@ -40,38 +40,38 @@ const Chat = () => {
     temperature: number;
     maxtokens: number;
   }>({
-    model: "gpt-3.5-turbo-1106",
+    model: 'gpt-3.5-turbo-1106',
     temperature: 1,
     maxtokens: 4096,
   });
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   const handleSend = () => {
     setPendingCompletion(true);
     const newMessages = [...messages];
     if (!userFile) {
       newMessages.push({
-        role: "user",
+        role: 'user',
         content: userMessage,
       });
     } else {
       newMessages.push({
-        role: "user",
+        role: 'user',
         content: [
-          { type: "text", text: userMessage },
-          { type: "image_url", image_url: { url: userFile } },
+          { type: 'text', text: userMessage },
+          { type: 'image_url', image_url: { url: userFile } },
         ],
       });
     }
     setMessages(newMessages);
-    setUserMessage("");
-    setUserFile("");
+    setUserMessage('');
+    setUserFile('');
     openai.chat.completions
       .create({
         model: options.model,
         messages: [
           {
-            role: "system",
+            role: 'system',
             content: systemInstructions ?? DEFAULT_SYSTEM_INSTRUCTIONS,
           },
           ...newMessages,
@@ -98,28 +98,27 @@ const Chat = () => {
   const handleInputMessageKeyUp = (
     event: React.KeyboardEvent<HTMLInputElement>
   ) => {
-    if (event.key === "Enter") {
+    if (event.key === 'Enter') {
       handleSend();
       event.preventDefault();
     }
   };
 
-  const handleInputFileChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      console.log;
-      setUserFile(e.target?.result as string);
-    };
-    reader.readAsDataURL(file);
-  };
+  // const handleInputFileChange = (
+  //   event: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   const file = event.target.files?.[0]
+  //   if (!file) return
+  //   const reader = new FileReader()
+  //   reader.onload = (e) => {
+  //     setUserFile(e.target?.result as string)
+  //   }
+  //   reader.readAsDataURL(file)
+  // }
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
   return (
@@ -146,17 +145,17 @@ const Chat = () => {
             </div>
           )}
           {messages
-            .filter((m) => m.role != "system")
+            .filter((m) => m.role != 'system')
             .map((message, index) => (
               <Text
                 key={index}
                 className={cn(
-                  "p-3 border rounded-md w-fit",
-                  message.role === "assistant" && "bg-slate-100",
-                  message.role === "user" && "ml-auto"
+                  'p-3 border rounded-md w-fit',
+                  message.role === 'assistant' && 'bg-slate-100',
+                  message.role === 'user' && 'ml-auto'
                 )}
               >
-                {typeof message.content == "string"
+                {typeof message.content == 'string'
                   ? message.content
                   : (message.content as any)[0].text}
               </Text>

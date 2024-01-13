@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { LoadingSVG } from "@/components/svgs/LoadingSVG";
+import { LoadingSVG } from '@/components/svgs/LoadingSVG';
 import {
   Button,
   Input,
@@ -12,34 +12,34 @@ import {
   SelectTrigger,
   SelectValue,
   Text,
-} from "@/components/ui";
-import openai from "@/lib/openai";
-import { ArrowUpRight, MessageSquare, Send, XCircle } from "lucide-react";
-import Image from "next/image";
-import { Image as ImageResponse } from "openai/resources/images.mjs";
-import { useState } from "react";
+} from '@/components/ui';
+import openai from '@/lib/openai';
+import { ArrowUpRight, MessageSquare, Send, XCircle } from 'lucide-react';
+import Image from 'next/image';
+import { Image as ImageResponse } from 'openai/resources/images.mjs';
+import { useState } from 'react';
 
-const models = [{ name: "dall-e-2" }, { name: "dall-e-3" }];
+const models = [{ name: 'dall-e-2' }, { name: 'dall-e-3' }];
 
-const styles = [{ name: "vivid" }, { name: "natural" }];
+const styles = [{ name: 'vivid' }, { name: 'natural' }];
 
 const Images = () => {
-  const [prompt, setPrompt] = useState<string>("");
+  const [prompt, setPrompt] = useState<string>('');
   const [pendingGeneration, setPendingGeneration] = useState<boolean>(false);
   const [options, setOptions] = useState<{
     model: string;
     count: number;
     style: string;
   }>({
-    model: "dall-e-2",
+    model: 'dall-e-2',
     count: 1,
-    style: "vivid",
+    style: 'vivid',
   });
   const [images, setImages] = useState<Array<ImageResponse>>([]);
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   const handleSend = async () => {
-    setErrorMessage("");
+    setErrorMessage('');
     setImages([]);
     setPendingGeneration(true);
     openai.images
@@ -62,7 +62,7 @@ const Images = () => {
   const handleInputMessageKeyUp = (
     event: React.KeyboardEvent<HTMLInputElement>
   ) => {
-    if (event.key === "Enter") {
+    if (event.key === 'Enter') {
       handleSend();
       event.preventDefault();
     }

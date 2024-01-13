@@ -1,20 +1,20 @@
-import { cn } from "@/lib/utils";
-import { VariantProps, cva } from "class-variance-authority";
-import { LinkProps as NextLinkProps, default as NextLink } from "next/link";
-import React from "react";
+import { cn } from '@/lib/utils';
+import { VariantProps, cva } from 'class-variance-authority';
+import { LinkProps as NextLinkProps, default as NextLink } from 'next/link';
+import React from 'react';
 
 const linkVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap text-sm scroll-m-20 tracking-tight text-primary",
+  'inline-flex items-center justify-center whitespace-nowrap text-sm scroll-m-20 tracking-tight text-primary',
   {
     variants: {
       variant: {
-        default: "underline-offset-4 hover:underline",
-        active: "underline-offset-4 underline",
-        ghost: "",
+        default: 'underline-offset-4 hover:underline',
+        active: 'underline-offset-4 underline',
+        ghost: '',
       },
     },
     defaultVariants: {
-      variant: "default",
+      variant: 'default',
     },
   }
 );
@@ -38,6 +38,6 @@ const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
     );
   }
 );
-Link.displayName = "Link";
+Link.displayName = 'Link';
 
 export { Link };

@@ -1,44 +1,44 @@
-"use client";
+'use client';
 
-import { usePathname, useRouter } from "next/navigation";
-import { HTMLAttributeAnchorTarget, PropsWithChildren, useEffect } from "react";
-import { OpenAISVG, GithubSVG } from "@/components/svgs";
-import { Link, Text } from "@/components/ui";
-import { STORAGE_KEY } from "@/lib/constants";
-import openai from "@/lib/openai";
-import { ArrowUpRight } from "lucide-react";
+import { usePathname, useRouter } from 'next/navigation';
+import { HTMLAttributeAnchorTarget, PropsWithChildren, useEffect } from 'react';
+import { OpenAISVG, GithubSVG } from '@/components/svgs';
+import { Link, Text } from '@/components/ui';
+import { STORAGE_KEY } from '@/lib/constants';
+import openai from '@/lib/openai';
+import { ArrowUpRight } from 'lucide-react';
 
 type Menu = { name: string; path: string; target?: HTMLAttributeAnchorTarget };
 
 const menus: Menu[] = [
   {
-    name: "Chat",
-    path: "/home/chat",
+    name: 'Chat',
+    path: '/home/chat',
   },
   {
-    name: "Images",
-    path: "/home/images",
+    name: 'Images',
+    path: '/home/images',
   },
   {
-    name: "Files",
-    path: "/home/files",
+    name: 'Files',
+    path: '/home/files',
   },
   {
-    name: "Assistants",
-    path: "/home/assistants",
+    name: 'Assistants',
+    path: '/home/assistants',
   },
   {
-    name: "Moderations",
-    path: "/home/moderations",
+    name: 'Moderations',
+    path: '/home/moderations',
   },
   {
-    name: "Tokenizer",
-    path: "/home/tokenizer",
+    name: 'Tokenizer',
+    path: '/home/tokenizer',
   },
   {
-    name: "API Reference",
-    path: "https://platform.openai.com/docs/api-reference",
-    target: "_blank",
+    name: 'API Reference',
+    path: 'https://platform.openai.com/docs/api-reference',
+    target: '_blank',
   },
 ];
 
@@ -57,7 +57,7 @@ const Navbar = () => {
           <Link
             key={index}
             href={menu.path}
-            variant={menu === activeMenu ? "active" : "default"}
+            variant={menu === activeMenu ? 'active' : 'default'}
             target={menu.target}
           >
             {menu.name} {menu.target && <ArrowUpRight size={16} />}
@@ -79,7 +79,7 @@ const HomeLayout = (props: PropsWithChildren) => {
 
   useEffect(() => {
     const apiKey = localStorage.getItem(STORAGE_KEY);
-    if (!apiKey) router.push("/");
+    if (!apiKey) router.push('/');
     else openai.apiKey = apiKey;
   }, [router]);
 

@@ -1,23 +1,23 @@
-"use client";
+'use client';
 
-import { Link, Text, Textarea } from "@/components/ui";
-import { useState } from "react";
-import cl100k_base from "gpt-tokenizer";
-import { Switch } from "@/components/ui";
-import { Label } from "@/components/ui/label";
-import { ArrowUpRight } from "lucide-react";
+import { Link, Text, Textarea } from '@/components/ui';
+import { useState } from 'react';
+import cl100k_base from 'gpt-tokenizer';
+import { Switch } from '@/components/ui';
+import { Label } from '@/components/ui/label';
+import { ArrowUpRight } from 'lucide-react';
 
 const colors = [
-  "rgba(107,64,216,.3)",
-  "rgba(104,222,122,.4)",
-  "rgba(244,172,54,.4)",
-  "rgba(239,65,70,.4)",
-  "rgba(39,181,234,.4)",
+  'rgba(107,64,216,.3)',
+  'rgba(104,222,122,.4)',
+  'rgba(244,172,54,.4)',
+  'rgba(239,65,70,.4)',
+  'rgba(39,181,234,.4)',
 ];
 
 const Tokenizer = () => {
   const [inputText, setInputText] = useState<string>(
-    "Tokenizer is a tool to understand how a piece of text might be tokenized by a language model, and the total count of tokens in that piece of text."
+    'Tokenizer is a tool to understand how a piece of text might be tokenized by a language model, and the total count of tokens in that piece of text.'
   );
   const [showTokenIds, setShowTokenIds] = useState<boolean>(false);
 
@@ -56,14 +56,14 @@ const Tokenizer = () => {
           <div
             key={index}
             style={{
-              display: "inline-block",
+              display: 'inline-block',
               backgroundColor: colors[index % colors.length],
             }}
           >
             <pre>
               {String(token)
-                .replaceAll(" ", "\u00A0")
-                .replaceAll("\n", "<newline>")}
+                .replaceAll(' ', '\u00A0')
+                .replaceAll('\n', '<newline>')}
             </pre>
           </div>
         ))}

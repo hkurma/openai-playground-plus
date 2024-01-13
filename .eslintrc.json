@@ -1,3 +1,9 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": ["next", "prettier"],
+  "rules": {
+    "no-debugger": "error",
+    "no-console": "error",
+    "prefer-const": "error",
+    "no-unused-vars": "error"
+  }
 }
