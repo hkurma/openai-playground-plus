@@ -4,13 +4,14 @@ Playground app for OpenAI API's and more. Use your own OpenAI API Key. Your API 
 
 [Playground+ App](https://openai-playground-plus.vercel.app)
 
-## API's
+## Features
 
-These OpenAI API's are currently supported in the playground.
+These OpenAI features are currently supported in the playground.
 
-- Chat Completions (including vision model)
-- Images
-- Files
+- Text Generation
+- Vision
+- Image Generation
+- Function Calling (Coming soon..!)
 - Assistants (Coming soon...!)
 - Moderations
 
