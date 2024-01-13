@@ -27,7 +27,6 @@ const models = [{ name: 'gpt-3.5-turbo-1106' }, { name: 'gpt-4-1106-preview' }];
 const TextGeneration = () => {
   const [systemInstructions, setSystemInstructions] = useState<string>('');
   const [userMessage, setUserMessage] = useState<string>('');
-  const [userFile, setUserFile] = useState<string>('');
   const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
   const [pendingCompletion, setPendingCompletion] = useState<boolean>(false);
   const [options, setOptions] = useState<{
@@ -44,23 +43,12 @@ const TextGeneration = () => {
   const handleSend = () => {
     setPendingCompletion(true);
     const newMessages = [...messages];
-    if (!userFile) {
-      newMessages.push({
-        role: 'user',
-        content: userMessage,
-      });
-    } else {
-      newMessages.push({
-        role: 'user',
-        content: [
-          { type: 'text', text: userMessage },
-          { type: 'image_url', image_url: { url: userFile } },
-        ],
-      });
-    }
+    newMessages.push({
+      role: 'user',
+      content: userMessage,
+    });
     setMessages(newMessages);
     setUserMessage('');
-    setUserFile('');
     openai.chat.completions
       .create({
         model: options.model,
@@ -137,9 +125,7 @@ const TextGeneration = () => {
                   message.role === 'user' && 'ml-auto'
                 )}
               >
-                {typeof message.content == 'string'
-                  ? message.content
-                  : (message.content as any)[0].text}
+                {message.content as string}
               </Text>
             ))}
           {pendingCompletion && (
