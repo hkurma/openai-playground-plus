@@ -16,7 +16,7 @@ import {
 } from '@/components/ui';
 import openai from '@/lib/openai';
 import { cn } from '@/lib/utils';
-import { MessageSquare, PlayCircle, Plus, RotateCw } from 'lucide-react';
+import { File, MessageSquare, PlayCircle, Plus, RotateCw } from 'lucide-react';
 import { Assistant } from 'openai/resources/beta/assistants/assistants.mjs';
 import { MessageContentText } from 'openai/resources/beta/threads/messages/messages.mjs';
 import { Thread } from 'openai/resources/beta/threads/threads.mjs';
@@ -354,7 +354,7 @@ const Assistants = () => {
             <div className="flex items-center justify-between">
               <Text variant="muted">Files</Text>
               <Label htmlFor="addFile" className="flex cursor-pointer px-2">
-                <Plus size={14} className="mr-2" />
+                <Plus size={14} className="mr-1" />
                 Add
                 <Input
                   id="addFile"
@@ -372,7 +372,8 @@ const Assistants = () => {
               </Text>
             )}
             {activeAssistant?.file_ids?.map((fileId, index) => (
-              <div className="flex justify-between" key={index}>
+              <div key={index} className="flex gap-1">
+                <File size={16} />
                 <Text>{resolveFilename(fileId)}</Text>
               </div>
             ))}
