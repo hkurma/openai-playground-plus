@@ -110,8 +110,9 @@ const Assistants = () => {
   };
 
   const handleSaveActiveAssistant = () => {
+    if (!activeAssistant || !activeAssistant.id) return;
     setSaving(true);
-    if (activeAssistant?.id === '0')
+    if (activeAssistant.id === '0')
       openai.beta.assistants
         .create({
           name: activeAssistant.name,
@@ -128,12 +129,12 @@ const Assistants = () => {
         });
     else
       openai.beta.assistants
-        .update(activeAssistant?.id!, {
-          name: activeAssistant?.name,
-          instructions: activeAssistant?.instructions,
-          model: activeAssistant?.model,
-          tools: activeAssistant?.tools,
-          file_ids: activeAssistant?.file_ids,
+        .update(activeAssistant.id, {
+          name: activeAssistant.name,
+          instructions: activeAssistant.instructions,
+          model: activeAssistant.model,
+          tools: activeAssistant.tools,
+          file_ids: activeAssistant.file_ids,
         })
         .then(() => {
           fetchAssistants();
@@ -185,10 +186,11 @@ const Assistants = () => {
   };
 
   const handleCreateRun = () => {
+    if (!activeAssistant?.id || !thread?.id) return;
     setRunning(true);
     openai.beta.threads.runs
-      .create(thread?.id as string, {
-        assistant_id: activeAssistant?.id as string,
+      .create(thread.id, {
+        assistant_id: activeAssistant.id,
       })
       .then((res) => {
         checkRunStatus(res.id);
