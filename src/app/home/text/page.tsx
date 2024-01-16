@@ -26,7 +26,7 @@ const models = [{ name: 'gpt-3.5-turbo-1106' }, { name: 'gpt-4-1106-preview' }];
 
 const TextGeneration = () => {
   const [systemInstructions, setSystemInstructions] = useState<string>('');
-  const [userMessage, setUserMessage] = useState<string>('');
+  const [inputMessage, setInputMessage] = useState<string>('');
   const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
   const [pendingCompletion, setPendingCompletion] = useState<boolean>(false);
   const [options, setOptions] = useState<{
@@ -45,10 +45,10 @@ const TextGeneration = () => {
     const newMessages = [...messages];
     newMessages.push({
       role: 'user',
-      content: userMessage,
+      content: inputMessage,
     });
     setMessages(newMessages);
-    setUserMessage('');
+    setInputMessage('');
     openai.chat.completions
       .create({
         model: options.model,
@@ -143,11 +143,11 @@ const TextGeneration = () => {
         </div>
         <div className="flex gap-4">
           <Input
-            name="userMessage"
+            name="inputMessage"
             className="flex-1"
             placeholder="Enter your message"
-            value={userMessage}
-            onChange={(e) => setUserMessage(e.target.value)}
+            value={inputMessage}
+            onChange={(e) => setInputMessage(e.target.value)}
             onKeyUp={handleInputMessageKeyUp}
           />
           <Button onClick={handleSend}>

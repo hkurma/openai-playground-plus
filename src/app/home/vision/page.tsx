@@ -131,11 +131,11 @@ const Vision = () => {
   const MessageContent = ({
     role,
     text,
-    image_url,
+    imageUrl,
   }: {
     role: 'function' | 'assistant' | 'user' | 'system' | 'tool';
     text?: string;
-    image_url?: string;
+    imageUrl?: string;
   }) => {
     return (
       <Text
@@ -146,8 +146,8 @@ const Vision = () => {
         )}
       >
         {text && text}
-        {image_url && (
-          <img src={image_url} alt="" height="auto" className="max-w-xs" />
+        {imageUrl && (
+          <img src={imageUrl} alt="" height="auto" className="max-w-xs" />
         )}
       </Text>
     );
@@ -199,7 +199,7 @@ const Vision = () => {
                   <MessageContent
                     key={index}
                     role={message.role}
-                    image_url={content.image_url.url}
+                    imageUrl={content.image_url.url}
                   />
                 );
               });

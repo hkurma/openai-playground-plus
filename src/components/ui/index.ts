@@ -9,3 +9,4 @@ export * from './text';
 export * from './link';
 export * from './badge';
 export * from './slider';
+export * from './dialog';
