@@ -232,7 +232,7 @@ const Assistants = () => {
 
   return (
     <div className="h-full w-full flex overflow-hidden">
-      <div className="w-1/3 border-r h-full flex flex-col gap-4">
+      <div className="hidden lg:flex flex-col w-1/3 border-r h-full gap-6">
         <div className="flex-1 flex flex-col gap-4 overflow-auto px-4 py-6">
           <div className="flex flex-col gap-3">
             <Label>Assistant</Label>
