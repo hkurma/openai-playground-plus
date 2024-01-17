@@ -51,7 +51,7 @@ const Tokenizer = () => {
           Learn more about tokenization <ArrowUpRight size={16} />
         </Link>
       </div>
-      <div className="w-full flex-1 border rounded-md px-4 py-4 overflow-auto bg-slate-100">
+      <div className="w-full flex-1 border rounded-md px-4 py-4 overflow-auto bg-secondary">
         {(showTokenIds ? encodedTokens : decodedTokens).map((token, index) => (
           <div
             key={index}
@@ -69,11 +69,11 @@ const Tokenizer = () => {
         ))}
       </div>
       <div className="flex gap-4">
-        <div className="flex-1 border rounded-md text-center p-4 bg-slate-100">
+        <div className="flex-1 border rounded-md text-center p-4 bg-secondary">
           <Text variant="heading">{inputText.length}</Text>
           <Text>Characters</Text>
         </div>
-        <div className="flex-1 border rounded-md text-center p-4 bg-slate-100">
+        <div className="flex-1 border rounded-md text-center p-4 bg-secondary">
           <Text variant="heading">{encodedTokens.length}</Text>
           <Text>Tokens</Text>
         </div>

@@ -7,6 +7,7 @@ import { Button, Link, Text } from '@/components/ui';
 import { STORAGE_KEY } from '@/lib/constants';
 import openai from '@/lib/openai';
 import { ArrowUpRight } from 'lucide-react';
+import { ModeToggle } from '@/components/mode-toggle';
 
 type Menu = { name: string; path: string; target?: HTMLAttributeAnchorTarget };
 
@@ -66,6 +67,7 @@ const Navbar = () => {
         >
           API Reference <ArrowUpRight size={16} />
         </Link>
+        <ModeToggle />
         <Link
           href="https://github.com/hkurma/openai-playground-plus"
           target="_blank"

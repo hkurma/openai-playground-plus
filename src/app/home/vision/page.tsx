@@ -141,7 +141,7 @@ const Vision = () => {
       <Text
         className={cn(
           'p-3 border rounded-md w-fit',
-          role === 'assistant' && 'bg-slate-100',
+          role === 'assistant' && 'bg-secondary',
           role === 'user' && 'ml-auto'
         )}
       >
@@ -205,7 +205,7 @@ const Vision = () => {
               });
             })}
           {pendingCompletion && (
-            <div className="p-3 border rounded w-fit bg-slate-100">
+            <div className="p-3 border rounded w-fit bg-secoondary">
               <LoadingSVG />
             </div>
           )}

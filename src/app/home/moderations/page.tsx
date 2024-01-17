@@ -64,7 +64,7 @@ const Moderations = () => {
             </div>
           )}
           {pending && (
-            <div className="p-3 border rounded w-fit bg-slate-100">
+            <div className="p-3 border rounded w-fit bg-secondary">
               <LoadingSVG />
             </div>
           )}
@@ -77,7 +77,7 @@ const Moderations = () => {
                   'flex flex-col items-center justify-center gap-4 border rounded-md p-4',
                   category[1]
                     ? 'border-red-300 text-red-500 bg-red-50'
-                    : 'bg-slate-50'
+                    : 'bg-secondary'
                 )}
               >
                 <Text variant="medium">{category[0]}</Text>

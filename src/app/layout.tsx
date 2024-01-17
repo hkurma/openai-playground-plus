@@ -5,6 +5,7 @@ import './globals.css';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { APP_DESCRIPTION, APP_TITLE } from '@/lib/constants';
+import { ThemeProvider } from '@/components/theme-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -57,7 +58,14 @@ const RootLayout = (props: PropsWithChildren) => {
   return (
     <html lang="en">
       <body className={inter.className}>
-        {props.children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {props.children}
+        </ThemeProvider>
         <Analytics />
         <SpeedInsights />
       </body>

@@ -79,7 +79,7 @@ const Images = () => {
             </div>
           )}
           {pendingGeneration && (
-            <div className="p-3 border rounded w-fit bg-slate-100">
+            <div className="p-3 border rounded w-fit bg-secondary">
               <LoadingSVG />
             </div>
           )}

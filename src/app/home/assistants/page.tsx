@@ -437,7 +437,7 @@ const Assistants = () => {
               key={index}
               className={cn(
                 'p-3 border rounded-md w-fit',
-                message.role === 'assistant' && 'bg-slate-100',
+                message.role === 'assistant' && 'bg-secondary',
                 message.role === 'user' && 'ml-auto'
               )}
             >
