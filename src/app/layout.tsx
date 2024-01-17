@@ -56,7 +56,7 @@ export const metadata: Metadata = {
 
 const RootLayout = (props: PropsWithChildren) => {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <ThemeProvider
           attribute="class"
