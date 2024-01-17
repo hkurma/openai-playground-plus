@@ -250,6 +250,8 @@ const Assistants = () => {
                 <SelectValue placeholder="Select an assistant" />
               </SelectTrigger>
               <SelectContent>
+                <SelectItem value="0">New Assistant</SelectItem>
+                <SelectSeparator />
                 {assistants.length === 0 && (
                   <Text variant="muted" className="pl-8 py-2">
                     You don&apos;t have any assistants.
@@ -260,8 +262,6 @@ const Assistants = () => {
                     {assistant.name}
                   </SelectItem>
                 ))}
-                <SelectSeparator />
-                <SelectItem value="0">New Assistant</SelectItem>
               </SelectContent>
             </Select>
           </div>
