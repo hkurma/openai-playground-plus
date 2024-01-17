@@ -16,7 +16,14 @@ import {
 } from '@/components/ui';
 import openai from '@/lib/openai';
 import { cn } from '@/lib/utils';
-import { File, MessageSquare, PlayCircle, Plus, RotateCw } from 'lucide-react';
+import {
+  Eraser,
+  File,
+  MessageSquare,
+  PlayCircle,
+  Plus,
+  RotateCw,
+} from 'lucide-react';
 import { Assistant } from 'openai/resources/beta/assistants/assistants.mjs';
 import { MessageContentText } from 'openai/resources/beta/threads/messages/messages.mjs';
 import { Thread } from 'openai/resources/beta/threads/threads.mjs';
@@ -165,7 +172,6 @@ const Assistants = () => {
   };
 
   const addMessage = (threadId?: string) => {
-    setMessages([...messages, { role: 'user', content: inputMessage }]);
     if (!threadId) createThread();
     else createMessage(threadId);
   };
@@ -181,6 +187,7 @@ const Assistants = () => {
     openai.beta.threads.messages
       .create(threadId, { role: 'user', content: inputMessage })
       .then(() => {
+        setMessages([...messages, { role: 'user', content: inputMessage }]);
         setInputMessage('');
       });
   };
@@ -231,9 +238,9 @@ const Assistants = () => {
   }, [messages]);
 
   return (
-    <div className="h-full w-full flex overflow-hidden">
-      <div className="hidden lg:flex flex-col w-1/3 border-r h-full gap-6">
-        <div className="flex-1 flex flex-col gap-4 overflow-auto px-4 py-6">
+    <div className="h-full w-full flex gap-6 overflow-hidden px-4 py-6">
+      <div className="hidden lg:flex flex-col w-1/4 h-full gap-6">
+        <div className="flex-1 flex flex-col gap-4">
           <div className="flex flex-col gap-3">
             <Label>Assistant</Label>
             <Select
@@ -382,7 +389,7 @@ const Assistants = () => {
           </div>
         </div>
         {activeAssistant && (
-          <div className="flex gap-4 px-4 py-6">
+          <div className="flex gap-4">
             {activeAssistant.id !== '0' && (
               <Button
                 className="flex-1"
@@ -403,12 +410,26 @@ const Assistants = () => {
           </div>
         )}
       </div>
-      <div className="flex-1 px-4 py-6 flex flex-col gap-4">
+      <div className="flex-1 flex flex-col gap-4">
+        {thread && (
+          <div className="flex gap-4">
+            <Text variant="muted">{thread.id}</Text>
+            <Button
+              variant="link"
+              className="p-0 text-destructive"
+              onClick={handleClear}
+            >
+              <Eraser size={14} className="mr-1" /> Clear
+            </Button>
+          </div>
+        )}
         <div className="flex-1 flex flex-col gap-4 overflow-auto">
           {messages.length === 0 && (
             <div className="w-full h-full flex flex-col justify-center items-center gap-3">
               <MessageSquare />
-              <Text variant="medium">Send a message to start your chat</Text>
+              <Text variant="medium">
+                Send a message to start chat with your assistant.
+              </Text>
             </div>
           )}
           {messages.map((message, index) => (
@@ -425,7 +446,6 @@ const Assistants = () => {
           ))}
           <div ref={messagesEndRef} />
         </div>
-        {thread && <Text variant="muted">{thread.id}</Text>}
         <div className="flex gap-4">
           <Input
             name="inputMessage"
@@ -453,11 +473,6 @@ const Assistants = () => {
             />
             Run
           </Button>
-          {thread && (
-            <Button variant="secondary" size="small" onClick={handleClear}>
-              Clear
-            </Button>
-          )}
         </div>
       </div>
     </div>
