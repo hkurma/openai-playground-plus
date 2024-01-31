@@ -4,7 +4,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { HTMLAttributeAnchorTarget, PropsWithChildren, useEffect } from 'react';
 import { OpenAISVG, GithubSVG } from '@/components/svgs';
 import { Button, Link, Text } from '@/components/ui';
-import { STORAGE_KEY } from '@/lib/constants';
+import { OPENAI_API_KEY } from '@/lib/constants';
 import openai from '@/lib/openai';
 import { ArrowUpRight } from 'lucide-react';
 import { ModeToggle } from '@/components/mode-toggle';
@@ -83,7 +83,7 @@ const HomeLayout = (props: PropsWithChildren) => {
   const router = useRouter();
 
   useEffect(() => {
-    const apiKey = localStorage.getItem(STORAGE_KEY);
+    const apiKey = localStorage.getItem(OPENAI_API_KEY);
     if (!apiKey) router.push('/');
     else openai.apiKey = apiKey;
   }, [router]);

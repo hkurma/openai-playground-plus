@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { OpenAISVG } from '@/components/svgs';
 import { Text, Button, Input, Link } from '@/components/ui';
-import { APP_DESCRIPTION, APP_TITLE, STORAGE_KEY } from '@/lib/constants';
+import { APP_DESCRIPTION, APP_TITLE, OPENAI_API_KEY } from '@/lib/constants';
 import { ArrowUpRight } from 'lucide-react';
 import { ModeToggle } from '@/components/mode-toggle';
 
@@ -13,12 +13,12 @@ const Index = () => {
   const router = useRouter();
 
   useEffect(() => {
-    setApiKey(localStorage.getItem(STORAGE_KEY) ?? '');
+    setApiKey(localStorage.getItem(OPENAI_API_KEY) ?? '');
   }, []);
 
   const handleSubmit = () => {
     if (!apiKey) return;
-    localStorage.setItem(STORAGE_KEY, apiKey);
+    localStorage.setItem(OPENAI_API_KEY, apiKey);
     router.push('/home/text');
   };
 
