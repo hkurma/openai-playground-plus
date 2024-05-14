@@ -29,6 +29,8 @@ import { MessageContentText } from 'openai/resources/beta/threads/messages/messa
 import { Thread } from 'openai/resources/beta/threads/threads.mjs';
 import { FileObject } from 'openai/resources/files.mjs';
 import { useEffect, useRef, useState } from 'react';
+import Markdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const models = [
   { name: 'gpt-4o' },
@@ -445,7 +447,9 @@ const Assistants = () => {
                 message.role === 'user' && 'ml-auto'
               )}
             >
-              {message.content as string}
+              <Markdown remarkPlugins={[remarkGfm]}>
+                {message.content as string}
+              </Markdown>
             </Text>
           ))}
           <div ref={messagesEndRef} />
