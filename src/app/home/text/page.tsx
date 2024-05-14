@@ -22,7 +22,11 @@ import { ArrowUpRight, MessageSquare, Send, XCircle } from 'lucide-react';
 import { ChatCompletionMessageParam } from 'openai/resources/index.mjs';
 import { useEffect, useRef, useState } from 'react';
 
-const models = [{ name: 'gpt-3.5-turbo-1106' }, { name: 'gpt-4-1106-preview' }];
+const models = [
+  { name: 'gpt-4o' },
+  { name: 'gpt-4-turbo' },
+  { name: 'gpt-3.5-turbo' },
+];
 
 const TextGeneration = () => {
   const [systemInstructions, setSystemInstructions] = useState<string>('');

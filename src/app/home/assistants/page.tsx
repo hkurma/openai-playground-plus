@@ -30,7 +30,11 @@ import { Thread } from 'openai/resources/beta/threads/threads.mjs';
 import { FileObject } from 'openai/resources/files.mjs';
 import { useEffect, useRef, useState } from 'react';
 
-const models = [{ name: 'gpt-3.5-turbo-1106' }, { name: 'gpt-4-1106-preview' }];
+const models = [
+  { name: 'gpt-4o' },
+  { name: 'gpt-4-turbo' },
+  { name: 'gpt-3.5-turbo' },
+];
 
 interface Message {
   role: 'user' | 'assistant';

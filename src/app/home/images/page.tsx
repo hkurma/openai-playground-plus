@@ -19,7 +19,7 @@ import Image from 'next/image';
 import { Image as ImageResponse } from 'openai/resources/images.mjs';
 import { useState } from 'react';
 
-const models = [{ name: 'dall-e-2' }, { name: 'dall-e-3' }];
+const models = [{ name: 'dall-e-3' }, { name: 'dall-e-2' }];
 
 const styles = [{ name: 'vivid' }, { name: 'natural' }];
 

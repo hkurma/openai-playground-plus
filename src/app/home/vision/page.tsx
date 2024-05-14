@@ -29,8 +29,9 @@ import { ChatCompletionMessageParam } from 'openai/resources/index.mjs';
 import { useEffect, useRef, useState } from 'react';
 
 const models = [
+  { name: 'gpt-4o' },
   {
-    name: 'gpt-4-vision-preview',
+    name: 'gpt-4-turbo',
   },
 ];
 
